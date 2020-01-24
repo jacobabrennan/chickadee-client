@@ -1,18 +1,24 @@
 
 
-//==============================================================================
+//== Authentication ============================================================
 
-//------------------------------------------------
-export async function authenticate() {
+//-- User Id (am I logged in?) -------------------
+export async function userId() {
     //
-    let response = await fetch(`/data/updates`);
+    let response = await fetch(`/auth/userid`);
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}
-    //
-    return await response.json();
+    const responseData = await response.json();
+    if(responseData.error) {
+        alert(responseData.error);
+        return null;
+    }
+    return responseData.userId;
 }
-export async function register(userName, password) {
+
+//------------------------------------------------
+export async function register(userName, password, email) {
     //
     let postHeaders = {
         'Content-Type': 'application/json',
@@ -20,6 +26,7 @@ export async function register(userName, password) {
     let postBody = JSON.stringify({
         userName: userName,
         password: password,
+        email: email,
     });
     let requestOptions = {
         method: 'post',
@@ -28,14 +35,25 @@ export async function register(userName, password) {
         body: postBody,
     };
     //
-    let response = await fetch(`/auth/register`, requestOptions);
+    let response;
+    try{
+        response = await fetch(`/auth/register`, requestOptions);
         // Note: network errors propagated (not caught)
     //
-    if(!response.ok) { return null;}
+    } catch(error){ console.log(error); return;}
+    if(!response.ok) { console.log('Not Ok');return null;}
     //
-    // return await response.json();
-    return true;
+    const responseData = await response.json();
+    //
+    if(response.error) {
+        alert(response.error);
+        return null;
+    }
+    //
+    return responseData.userId;
 }
+
+//------------------------------------------------
 export async function login(userName, password) {
     //
     let postHeaders = {
@@ -56,10 +74,15 @@ export async function login(userName, password) {
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}
-    //
-    // return await response.json();
-    return true;
+    const responseData = await response.json();
+    if(responseData.error) {
+        alert(responseData.error);
+        return null;
+    }
+    return responseData.userId;
 }
+
+//------------------------------------------------
 export async function logout() {
     //
     let requestOptions = {
@@ -75,6 +98,10 @@ export async function logout() {
     // return await response.json();
     return true;
 }
+
+
+//==============================================================================
+
 export async function userGet(userId) {
     //
     let response = await fetch(`/data/user/${userId}`);
@@ -82,5 +109,11 @@ export async function userGet(userId) {
     //
     if(!response.ok) { return null;}
     //
+    return await response.json();
+}
+export async function feedUpdate() {
+    let response = await fetch(`/data/feed`);
+        // Note: network errors propagated (not caught)
+    if(!response.ok) { return null;}
     return await response.json();
 }
