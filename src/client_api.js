@@ -1,23 +1,26 @@
 
 
+//== Client / Server API =======================================================
+
+
 //== Authentication ============================================================
 
 //-- User Id (am I logged in?) -------------------
-export async function userId() {
+export async function getId() {
     //
     let response = await fetch(`/auth/userid`);
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}
-    const responseData = await response.json();
-    if(responseData.error) {
-        alert(responseData.error);
+    const userData = await response.json();
+    if(userData.error) {
+        alert(userData.error);
         return null;
     }
-    return responseData.userId;
+    return userData.userId;
 }
 
-//------------------------------------------------
+//-- Registration --------------------------------
 export async function register(userName, password, email) {
     //
     let postHeaders = {
@@ -43,17 +46,18 @@ export async function register(userName, password, email) {
     } catch(error){ console.log(error); return;}
     if(!response.ok) { console.log('Not Ok');return null;}
     //
-    const responseData = await response.json();
+    const userData = await response.json();
     //
-    if(response.error) {
-        alert(response.error);
+    if(userData.error) {
+        alert(userData.error);
         return null;
     }
     //
-    return responseData.userId;
+    console.log(userData)
+    return userData.userId;
 }
 
-//------------------------------------------------
+//-- Log In --------------------------------------
 export async function login(userName, password) {
     //
     let postHeaders = {
@@ -74,15 +78,15 @@ export async function login(userName, password) {
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}
-    const responseData = await response.json();
-    if(responseData.error) {
-        alert(responseData.error);
+    const userData = await response.json();
+    if(userData.error) {
+        alert(userData.error);
         return null;
     }
-    return responseData.userId;
+    return userData.userId;
 }
 
-//------------------------------------------------
+//-- Log Out -------------------------------------
 export async function logout() {
     //
     let requestOptions = {
@@ -100,7 +104,7 @@ export async function logout() {
 }
 
 
-//==============================================================================
+//== Posts =====================================================================
 
 export async function userGet(userId) {
     //

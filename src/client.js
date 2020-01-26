@@ -1,6 +1,6 @@
 
 
-//==============================================================================\
+//== Full React Client =========================================================\
 
 //-- Dependencies --------------------------------
 import React, { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import ViewAuth from './view_auth/index.js';
 import ViewFeed from './view_feed/index.js';
 import './client.css';
 
-//------------------------------------------------
+//-- Sub Components ------------------------------
 function ViewLoading() {
     return <h1>Loading</h1>
 }
@@ -20,28 +20,31 @@ function ViewNoRoute() {
     return '404';
 }
 
-//------------------------------------------------
+//-- Main Client Component -----------------------
 export default function Client(props) {
+    // Setup hooks
     const [authenticatedUserId, setAuth] = useState(undefined);
     const routerHistory = routing.useHistory();
-    // Request post from server
+    // Request check authentication
     useEffect(function () {
-        clientAPI.userId().then(function (userId) {
-            if(!userId) { return;}
+        clientAPI.getId().then(function (userId) {
+            if(!userId) { userId = null;}
             setAuth(userId);
         });
     }, []);
-    //
-    function handleLogin(userIdNew) {
-        setAuth(userIdNew);
-        routerHistory.push('/')
-    }
+    // Show loading screen until authentication check completes
     if(authenticatedUserId === undefined) {
         return <ViewLoading />
     }
+    // If confirmed not authenticated, render authentication sub-client
     if(authenticatedUserId === null) {
+        function handleLogin(userIdNew) {
+            setAuth(userIdNew);
+            routerHistory.push('/')
+        }
         return <ViewAuth login={handleLogin} />
     }
+    // Render normal client
     return (
         <routing.Switch>
             <routing.Route path="/user/:id">

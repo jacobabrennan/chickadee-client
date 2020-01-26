@@ -3,16 +3,16 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React, { useEffect, useState } from 'react';
-import * as routing from 'react-router-dom';
-import * as clientAPI from '../client_api.js';
+import React, { useState } from 'react';
+// import * as routing from 'react-router-dom';
+// import * as clientAPI from '../client_api.js';
 
 //------------------------------------------------
 export default function ViewPost() {
-    const [post, setPost] = useState(undefined);
+    const [post] = useState(undefined);
     // Retrieve post id from url
-    const match = routing.useRouteMatch();
-    const postId = match.params.id;
+    // const match = routing.useRouteMatch();
+    // const postId = match.params.id;
     // Request post from server
     // useEffect(function () {
     //     API.getPost(postId).then(

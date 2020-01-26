@@ -32,7 +32,7 @@ export default function ViewAuth(props) {
 
 //== Sub Components ============================================================
 
-//-- Register ------------------------------------
+//-- Registration Form ---------------------------
 function FormRegister(props) {
     //
     function handleSubmit(eventSubmit) {
@@ -73,7 +73,7 @@ function FormRegister(props) {
     );
 }    
 
-//-- Log In --------------------------------------
+//-- Log In Form ---------------------------------
 function FormLogin(props) {
     //
     function handleSubmit(eventSubmit) {

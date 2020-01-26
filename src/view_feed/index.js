@@ -13,10 +13,9 @@ export default function ViewFeed() {
     //
     useEffect(function () {
         clientAPI.feedUpdate().then(function (postsUpdate) {
-            setPosts(posts.concat(postsUpdate));
+            setPosts([].concat(postsUpdate));
         });
     }, []);
-    console.log(posts)
     //
     return (<React.Fragment>
         <button
