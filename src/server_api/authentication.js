@@ -1,9 +1,6 @@
 
 
-//== Client / Server API =======================================================
-
-
-//== Authentication ============================================================
+//== Authentication API ========================================================
 
 //-- User Id (am I logged in?) -------------------
 export async function getId() {
@@ -101,23 +98,4 @@ export async function logout() {
     //
     // return await response.json();
     return true;
-}
-
-
-//== Posts =====================================================================
-
-export async function userGet(userId) {
-    //
-    let response = await fetch(`/data/user/${userId}`);
-        // Note: network errors propagated (not caught)
-    //
-    if(!response.ok) { return null;}
-    //
-    return await response.json();
-}
-export async function feedUpdate() {
-    let response = await fetch(`/data/feed`);
-        // Note: network errors propagated (not caught)
-    if(!response.ok) { return null;}
-    return await response.json();
 }

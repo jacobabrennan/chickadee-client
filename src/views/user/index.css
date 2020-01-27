@@ -1,0 +1,7 @@
+
+/*----------------------------------------------*/
+.userinfo {
+    padding: var(--padding-structure);
+    border: var(--border-structure);
+    border-radius: var(--radius-structure);
+}

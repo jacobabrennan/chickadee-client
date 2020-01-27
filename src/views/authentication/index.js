@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import * as routing from 'react-router-dom';
-import * as clientAPI from '../client_api.js';
+import { register, login } from '../../server_api/index.js';
 import './index.css';
 
 //-- Main Component ------------------------------
@@ -40,7 +40,7 @@ function FormRegister(props) {
         let userName = eventSubmit.currentTarget.elements.username.value;
         let password = eventSubmit.currentTarget.elements.password.value;
         let email = eventSubmit.currentTarget.elements.email.value;
-        clientAPI.register(userName, password, email).then(function (userId) {
+        register(userName, password, email).then(function (userId) {
             if(userId) {
                 props.login(userId);
             }
@@ -80,7 +80,7 @@ function FormLogin(props) {
         eventSubmit.preventDefault();
         let userName = eventSubmit.currentTarget.elements.username.value;
         let password = eventSubmit.currentTarget.elements.password.value;
-        clientAPI.login(userName, password).then(function (userId) {
+        login(userName, password).then(function (userId) {
             if(userId) {
                 props.login(userId);
             }

@@ -3,7 +3,7 @@ body {
 }
 form.auth {
     padding: 2rem;
-    border: solid 1px var(--color-structure);
+    border: var(--border-structure);
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-structure);

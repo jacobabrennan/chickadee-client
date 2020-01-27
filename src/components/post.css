@@ -1,0 +1,16 @@
+
+/*-- Posts--------------------------------------*/
+.post {
+    background: white;
+    padding: 1rem;
+    border: var(--border-structure);
+    border-radius: var(--radius-structure);
+    margin-top: 0.5rem;
+}
+.post_author {
+    font-weight: bold;
+}
+.post_body {
+    padding-top: 0.5rem;
+    border-top: var(--border-structure);
+}

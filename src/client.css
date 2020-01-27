@@ -1,4 +1,20 @@
 :root {
     --color-structure: #bbb;
     --radius-structure: 0.5rem;
+    --padding-structure: 1rem;
+    --border-structure: 1px solid var(--color-structure);
+}
+body {
+    background: #eee;
+}
+.headerbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid var(--color-structure) 1px;
+    border-radius: var(--radius-structure);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
+.headerbar a {
 }
