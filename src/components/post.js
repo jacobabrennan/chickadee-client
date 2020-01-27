@@ -13,7 +13,7 @@ const URL_USER_PROFILE = '/user';
 //------------------------------------------------
 export default function Post(props) {
     const post = props.post;
-    const authorLink = `${URL_USER_PROFILE}/${post.userIdAuthor}`
+    const authorLink = `${URL_USER_PROFILE}/${post.userId}`
     return (
         <div className="post">
             <Link to={authorLink}>

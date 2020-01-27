@@ -5,3 +5,7 @@
     border: var(--border-structure);
     border-radius: var(--radius-structure);
 }
+.userinfo .username {
+    font-size: larger;
+    font-weight: bold;;
+}

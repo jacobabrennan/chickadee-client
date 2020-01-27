@@ -10,6 +10,7 @@ import * as routing from 'react-router-dom';
 import './index.css';
 
 //-- Project Constants ---------------------------
+const URL_USER_PROFILE = '/user';
 
 //------------------------------------------------
 export default function ViewUser(props) {
@@ -33,7 +34,7 @@ export default function ViewUser(props) {
     const userId = routing.useParams().userId;
     return (
         <React.Fragment>
-            <UserInfo />
+            <UserInfo userId={userId} />
             <Feed userId={userId} />
         </React.Fragment>
     );
@@ -43,7 +44,16 @@ export default function ViewUser(props) {
 //==============================================================================
 
 function UserInfo(props) {
+    following
     return (
-        <div className="userinfo">User Info</div>
+        <div className="userinfo">
+            <span className="username">
+                <routing.Link to={`${URL_USER_PROFILE}/${props.userId}`}>
+                    {props.userId}
+                </routing.Link>
+            </span>
+            <br />
+            <button children="Follow" disabled={false} />
+        </div>
     );
 }

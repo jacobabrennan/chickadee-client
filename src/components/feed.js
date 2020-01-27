@@ -28,7 +28,7 @@ function reducer(state, action) {
         case ACTION_POSTS_UPDATE: {
             let postsById = {};
             state.posts.concat(action.posts).forEach(post => {
-                postsById[post.id] = post;
+                postsById[post.postId] = post;
             });
             newState.posts = Object.keys(postsById).map(key => postsById[key]);
             break;
