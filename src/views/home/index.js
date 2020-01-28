@@ -9,11 +9,11 @@ import Feed from '../../components/feed.js';
 import './index.css';
 
 //------------------------------------------------
-export default function ViewHome() {
+export default function ViewHome(props) {
     return (
         <React.Fragment>
             <Composer />
-            <Feed />
+            <Feed userId={props.userId} />
         </React.Fragment>
     );
 }

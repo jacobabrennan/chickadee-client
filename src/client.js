@@ -106,7 +106,7 @@ export default function Client(props) {
                     <ViewPost />
                 </routing.Route>
                 <routing.Route exact path="/">
-                    <ViewHome />
+                    <ViewHome userId={state.userId} />
                 </routing.Route>
                 <routing.Route>
                     <ViewNoRoute />

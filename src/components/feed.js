@@ -49,10 +49,10 @@ export default function Feed(props) {
     const [state, dispatch] = useReducer(reducer, stateInitial, stateInitializer);
     // Request posts on receipt of userId
     useEffect(function () {
-        client.feed.feedUpdate(state.userId).then(newPosts => {
+        client.feed.feedUpdate(state.userId).then(feedData => {
             dispatch({
                 type: ACTION_POSTS_UPDATE,
-                posts: newPosts,
+                posts: feedData.posts,
             });
         });
     }, [state.userId]);

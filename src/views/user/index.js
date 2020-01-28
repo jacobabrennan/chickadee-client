@@ -44,7 +44,6 @@ export default function ViewUser(props) {
 //==============================================================================
 
 function UserInfo(props) {
-    following
     return (
         <div className="userinfo">
             <span className="username">
