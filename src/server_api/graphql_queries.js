@@ -3,6 +3,22 @@
 //==============================================================================
 
 //------------------------------------------------
+export const QUERY_userGet = `query getUser($userId: String!) {
+    userGet(userId: $userId) {
+        userId
+        name
+        description
+    }
+}`
+export const MUTATION_userUpdate = `mutation updateUser($name: String, $description: String) {
+    userUpdate(name: $name, description: $description) {
+        userId
+        name
+        description
+    }
+}`
+
+//------------------------------------------------
 export const MUTATION_postCreate = `mutation newPost($text: String!) {
     postCreate(text: $text) {
         postId

@@ -10,6 +10,7 @@ import ViewUser from './views/user/index.js';
 import ViewPost from './views/post/index.js';
 import ViewAuth from './views/authentication/index.js';
 import ViewHome from './views/home/index.js';
+import ViewSettings from './views/settings/index.js';
 import './client.css';
 
 //-- Project Constants ---------------------------
@@ -104,6 +105,9 @@ export default function Client(props) {
                 </routing.Route>
                 <routing.Route path="/post/:id">
                     <ViewPost />
+                </routing.Route>
+                <routing.Route exact path="/settings">
+                    <ViewSettings userId={state.userId} />
                 </routing.Route>
                 <routing.Route exact path="/">
                     <ViewHome userId={state.userId} />

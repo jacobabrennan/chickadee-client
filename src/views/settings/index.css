@@ -1,0 +1,19 @@
+
+
+/*============================================================================*/
+
+/*----------------------------------------------*/
+.profile_editor {
+    border: var(--border-structure);
+    border-radius: var(--radius-structure);
+    padding: var(--padding-structure);
+    display: flex;
+    flex-direction: column;
+}
+.profile_editor label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    /* padding-top: 1rem;
+    border-top: var(--border-structure); */
+}

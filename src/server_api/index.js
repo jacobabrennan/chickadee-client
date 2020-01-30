@@ -24,10 +24,14 @@ export default {
             body: JSON.stringify(graphQLQuery),
         };
         let response = await fetch(URL_GRAPHQL, requestOptions);
-        console.log(response)
             // Note: network errors propagated (not caught)
+        console.log(response);
         //
-        if(!response.ok) { return null;}
+        if(!response.ok) {
+            let jerp = await response.json();
+            console.log(jerp)
+            return null;
+        }
         const dataUpdate = await response.json();
         return dataUpdate.data;
     },
