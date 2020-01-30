@@ -1,25 +1,28 @@
 
 
-//==============================================================================
+//== GraphQL Queries, Mutations, and Subscriptions =============================
 
-//------------------------------------------------
-export const QUERY_userGet = `query getUser($userId: String!) {
+//-- Dependencies --------------------------------
+import { gql } from "apollo-boost";
+
+//-- User ----------------------------------------
+export const QUERY_userGet = gql`query getUser($userId: String!) {
     userGet(userId: $userId) {
         userId
         name
         description
     }
-}`
-export const MUTATION_userUpdate = `mutation updateUser($name: String, $description: String) {
+}`;
+export const MUTATION_userUpdate = gql`mutation updateUser($name: String, $description: String) {
     userUpdate(name: $name, description: $description) {
         userId
         name
         description
     }
-}`
+}`;
 
-//------------------------------------------------
-export const MUTATION_postCreate = `mutation newPost($text: String!) {
+//-- Post ----------------------------------------
+export const MUTATION_postCreate = gql`mutation newPost($text: String!) {
     postCreate(text: $text) {
         postId
         userId
@@ -28,8 +31,8 @@ export const MUTATION_postCreate = `mutation newPost($text: String!) {
     }
 }`;
 
-//------------------------------------------------
-export const QUERY_feedGet = `query Feed($userId: String!) {
+//-- Feed ----------------------------------------
+export const QUERY_feedGet = gql`query Feed($userId: String!) {
     feedGet(userId: $userId) {
         posts {
             postId
@@ -40,13 +43,13 @@ export const QUERY_feedGet = `query Feed($userId: String!) {
     }
 }`;
 
-//------------------------------------------------
-export const QUERY_followersGet = `query Followers($userId: String!) {
+//-- Follow --------------------------------------
+export const QUERY_followersGet = gql`query Followers($userId: String!) {
     followersGet(userId: $userId)
 }`;
-export const MUTATION_followLinkAdd = `mutation AddFollow($targetId: String!) {
+export const MUTATION_followLinkAdd = gql`mutation AddFollow($targetId: String!) {
     followLinkAdd(targetId: $targetId)
 }`;
-export const MUTATION_followLinkRemove = `mutation RemoveFollow($targetId: String!) {
+export const MUTATION_followLinkRemove = gql`mutation RemoveFollow($targetId: String!) {
     followLinkRemove(targetId: $targetId)
 }`;

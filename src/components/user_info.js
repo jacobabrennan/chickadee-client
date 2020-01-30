@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect } from 'react';
 import * as routing from 'react-router-dom';
-import client from '../server_api/index.js';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
     QUERY_followersGet,
     MUTATION_followLinkAdd,
@@ -15,11 +15,13 @@ import {
 //-- Project Constants ---------------------------
 const URL_USER_PROFILE = '/user';
 const ACTION_FOLLOWERS_UPDATE = 'update followers';
+const ACTION_FOLLOWERS_ADD = 'add';
+const ACTION_FOLLOWERS_REMOVE = 'remove';
 
 //-- Initial State -------------------------------
 const stateInitial = {
     followers: [],
-}
+};
 
 //-- Action Reducer ------------------------------
 function reducer(state, action) {
@@ -27,6 +29,18 @@ function reducer(state, action) {
     switch(action.type) {
         case ACTION_FOLLOWERS_UPDATE: {
             newState.followers = action.followers.slice();
+            break;
+        }
+        case ACTION_FOLLOWERS_ADD: {
+            let followerIndex = newState.followers.indexOf(action.followerId);
+            if(followerIndex !== -1) { break;}
+            newState.followers.push(action.followerId);
+            break;
+        }
+        case ACTION_FOLLOWERS_REMOVE: {
+            let followerIndex = newState.followers.indexOf(action.followerId);
+            if(followerIndex === -1) { break;}
+            newState.followers.splice(followerIndex, 1);
             break;
         }
         default: {}
@@ -38,24 +52,38 @@ function reducer(state, action) {
 export default function UserInfo(props) {
     // Setup state hooks
     const [state, dispatch] = useReducer(reducer, stateInitial);
+    const queryVariables = {userId: props.userId};
+    const queryOptions = {variables: queryVariables};
+    const followResponseGet = useQuery(QUERY_followersGet, queryOptions);
+    const [followAdd, followResponseAdd] = useMutation(MUTATION_followLinkAdd);
+    const [followRemove, followResponseRemove] = useMutation(MUTATION_followLinkRemove);
     // Request
     useEffect(function () {
-        const variables = {userId: props.userId};
-        client.graphQL(QUERY_followersGet, variables).then(data => {
-            dispatch({
-                type: ACTION_FOLLOWERS_UPDATE,
-                followers: data.followersGet,
-            });
+        if(!followResponseGet.data) { return;}
+        dispatch({
+            type: ACTION_FOLLOWERS_UPDATE,
+            followers: followResponseGet.data.followersGet,
         });
-    }, [props.userId]);
+    }, [followResponseGet.data]);
+    useEffect(function () {
+        if(!followResponseAdd.data || !followResponseAdd.data.followLinkAdd) { return;}
+        dispatch({type: ACTION_FOLLOWERS_ADD, followerId: 'asdf'});
+    }, [followResponseAdd.data])
+    useEffect(function () {
+        if(!followResponseRemove.data || !followResponseRemove.data.followLinkRemove) { return;}
+        dispatch({type: ACTION_FOLLOWERS_REMOVE, followerId: 'asdf'})
+    }, [followResponseRemove.data])
     //
     function handleFollow() {
-        client.graphQL(MUTATION_followLinkAdd, {targetId: props.userId}).then(data => {
-        });
+        followAdd({variables: {targetId: props.userId}});
     }
     function handleUnfollow() {
-        client.graphQL(MUTATION_followLinkRemove, {targetId: props.userId}).then(data => {
-        });
+        followRemove({variables: {targetId: props.userId}});
+    }
+    //
+    if(followResponseGet.loading) { return 'Loading...';}
+    if(followResponseGet.error) {
+        return `Error! ${followResponseGet.error.message}`;
     }
     // Render JSX
     return (

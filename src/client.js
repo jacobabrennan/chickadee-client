@@ -5,7 +5,8 @@
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect } from 'react';
 import * as routing from 'react-router-dom';
-import { getId, logout } from './server_api/index.js';
+import { getId, logout } from './server_api/index_old.js';
+import { AuthenticationContext } from './server_api/index_old';
 import ViewUser from './views/user/index.js';
 import ViewPost from './views/post/index.js';
 import ViewAuth from './views/authentication/index.js';
@@ -95,9 +96,13 @@ export default function Client(props) {
             dispatch({type: ACTION_AUTH_LOGOUT});
         });
     }
+    // Prepare Authorization Context
+    const userAuthorizationData = {
+        userId: state.userId,
+    };
     // Render normal client
-    return (
-        <React.Fragment>
+    return (        
+        <AuthenticationContext.Provider value={userAuthorizationData}>
             <HeaderBar logout={handleLogout} />
             <routing.Switch>
                 <routing.Route path="/user/:userId">
@@ -107,16 +112,16 @@ export default function Client(props) {
                     <ViewPost />
                 </routing.Route>
                 <routing.Route exact path="/settings">
-                    <ViewSettings userId={state.userId} />
+                    <ViewSettings />
                 </routing.Route>
                 <routing.Route exact path="/">
-                    <ViewHome userId={state.userId} />
+                    <ViewHome />
                 </routing.Route>
                 <routing.Route>
                     <ViewNoRoute />
                 </routing.Route>
             </routing.Switch>
-        </React.Fragment>
+        </AuthenticationContext.Provider>
     );
 }
 

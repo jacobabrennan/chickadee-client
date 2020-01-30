@@ -3,13 +3,12 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer, useEffect } from 'react';
-import * as routing from 'react-router-dom';
-import client from '../../server_api/index.js';
+import React, { useReducer, useEffect, useContext } from 'react';
+import client, { AuthenticationContext } from '../../server_api/index_old.js';
 import {
     QUERY_userGet,
     MUTATION_userUpdate,
-} from '../../server_api/graphql_queries.js';
+} from '../../server_api/graphql_queries_old.js';
 import './index.css';
 
 //-- Project Constants ---------------------------
@@ -53,11 +52,11 @@ function reducer(state, action) {
 //------------------------------------------------
 export default function ViewSettings(props) {
     //
-    const userId = props.userId;
+    const userData = useContext(AuthenticationContext)
     const [state, dispatch] = useReducer(reducer, stateInitial);
     //
     useEffect(function () {
-        const variables = {userId: userId};
+        const variables = {userId: userData.userId};
         client.graphQL(QUERY_userGet, variables).then(data => {
             console.log(data)
             dispatch({
@@ -65,7 +64,7 @@ export default function ViewSettings(props) {
                 data: data.userGet,
             })
         });
-    }, [userId]);
+    }, [userData.userId]);
     // Interaction Handlers
     function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();

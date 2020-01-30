@@ -3,19 +3,17 @@
 //== New Post Composer =========================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer } from 'react';
-import client from '../server_api/index.js';
+import React, { useReducer, useEffect } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_postCreate } from '../server_api/graphql_queries.js';
 import './composer.css';
 
 //-- Project Constants ---------------------------
-const ACTION_SUBMIT = 'submit';
 const ACTION_RESET = 'reset';
 const ACTION_CHANGE_TEXT = 'text';
 
 //-- Initial State -------------------------------
 const stateInitial = {
-    submitting: false,
     bodyText: '',
 };
 
@@ -26,11 +24,6 @@ function reducer(state, action) {
         // Handle user typing letters into composer textarea
         case ACTION_CHANGE_TEXT: {
             newState.bodyText = action.bodyText;
-            break;
-        }
-        // Handle user submitting a new post
-        case ACTION_SUBMIT: {
-            newState.submitting = true;
             break;
         }
         // Reset composer once new post successfully submitted
@@ -48,6 +41,10 @@ function reducer(state, action) {
 export default function Composer() {
     // State Management
     const [state, dispatch] = useReducer(reducer, stateInitial);
+    const [postCreate, {loading, /*error,*/ data}] = useMutation(MUTATION_postCreate);
+    useEffect(function () {
+        dispatch({type: ACTION_RESET});
+    }, [data])
     // User Interaction Handlers
     function handleChangeText(eventChange) {
         dispatch({
@@ -57,18 +54,13 @@ export default function Composer() {
     }
     function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
-        dispatch({type: ACTION_SUBMIT});
-        //
         const variables = {text: state.bodyText};
-        client.graphQL(MUTATION_postCreate, variables).then(data => {
-            // remember to strip query name from result data
-            dispatch({type: ACTION_RESET});
-        });
+        postCreate({variables: variables});
     }
     // JSX Rendering
     return (
         <form className="composer" onSubmit={handleSubmit}>
-            <fieldset disabled={state.submitting}>
+            <fieldset disabled={loading}>
                 <textarea
                     className="composer_input"
                     name="textentry"

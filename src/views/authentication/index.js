@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import * as routing from 'react-router-dom';
-import { register, login } from '../../server_api/index.js';
+import { register, login } from '../../server_api/index_old.js';
 import './index.css';
 
 //-- Main Component ------------------------------

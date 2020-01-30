@@ -10,15 +10,6 @@ import React, { useState } from 'react';
 //------------------------------------------------
 export default function ViewPost() {
     const [post] = useState(undefined);
-    // Retrieve post id from url
-    // const match = routing.useRouteMatch();
-    // const postId = match.params.id;
-    // Request post from server
-    // useEffect(function () {
-    //     API.getPost(postId).then(
-    //         function (result) { return setPost(result);}
-    //     );
-    // }, [postId]);
     // Display post
     if(post === undefined) {
         return 'Requesting';
