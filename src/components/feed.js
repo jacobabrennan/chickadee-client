@@ -6,14 +6,13 @@
 import React, { useReducer, useEffect } from 'react';
 import Post from './post.js';
 import client from '../server_api/index.js';
+import { QUERY_feedGet } from '../server_api/graphql_queries.js';
 
 //-- Project Constants ---------------------------
-const ACTION_USERID_SET = 'set userid';
 const ACTION_POSTS_UPDATE = 'update posts';
 
 //-- Initial State -------------------------------
 const stateInitial = {
-    userId: undefined,
     posts: [],
 }
 
@@ -21,16 +20,14 @@ const stateInitial = {
 function reducer(state, action) {
     let newState = Object.assign({}, state);
     switch(action.type) {
-        case ACTION_USERID_SET: {
-            newState.userId = action.userId;
-            break;
-        }
         case ACTION_POSTS_UPDATE: {
-            let postsById = {};
-            state.posts.concat(action.posts).forEach(post => {
-                postsById[post.postId] = post;
-            });
-            newState.posts = Object.keys(postsById).map(key => postsById[key]);
+            // let postsById = {};
+            // state.posts.concat(action.posts).forEach(post => {
+            //     postsById[post.postId] = post;
+            // });
+            // console.log('setting posts')
+            // newState.posts = Object.keys(postsById).map(key => postsById[key]);
+            newState.posts = action.posts
             break;
         }
         default: {}
@@ -41,21 +38,17 @@ function reducer(state, action) {
 //-- Main Component ------------------------------
 export default function Feed(props) {
     // Setup state hooks
-    function stateInitializer(state) {
-        const stateInitialWithUser = Object.assign({}, state);
-        stateInitialWithUser.userId = props.userId;
-        return stateInitialWithUser;
-    }
-    const [state, dispatch] = useReducer(reducer, stateInitial, stateInitializer);
+    const [state, dispatch] = useReducer(reducer, stateInitial);
     // Request posts on receipt of userId
     useEffect(function () {
-        client.feed.feedUpdate(state.userId).then(feedData => {
+        const variables = {userId: props.userId};
+        client.graphQL(QUERY_feedGet, variables).then(data => {
             dispatch({
                 type: ACTION_POSTS_UPDATE,
-                posts: feedData.posts,
+                posts: data.feedGet.posts,
             });
         });
-    }, [state.userId]);
+    }, [props.userId]);
     // Render JSX
     return (
         <div>

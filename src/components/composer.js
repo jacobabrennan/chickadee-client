@@ -5,6 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useReducer } from 'react';
 import client from '../server_api/index.js';
+import { MUTATION_postCreate } from '../server_api/graphql_queries.js';
 import './composer.css';
 
 //-- Project Constants ---------------------------
@@ -57,10 +58,10 @@ export default function Composer() {
     function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
         dispatch({type: ACTION_SUBMIT});
-        const postContent = {
-            text: state.bodyText,
-        };
-        client.composer.postSubmit(postContent).then(() => {
+        //
+        const variables = {text: state.bodyText};
+        client.graphQL(MUTATION_postCreate, variables).then(data => {
+            // remember to strip query name from result data
             dispatch({type: ACTION_RESET});
         });
     }
