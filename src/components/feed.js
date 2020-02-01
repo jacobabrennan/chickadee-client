@@ -10,8 +10,13 @@ import Post from './post.js';
 export default function Feed(props) {
     return (
         <div>
-            {props.postContexts.map(function (postContext) {
-                return (<Post key={postContext.post.postId} post={postContext.post} />);
+            {props.posts.map(function (post) {
+                return (
+                    <Post
+                        key={post.postId}
+                        post={post}
+                        userContext={props.userContexts[post.authorId]}
+                    />);
             })}
         </div>
     );

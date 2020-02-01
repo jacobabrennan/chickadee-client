@@ -24,10 +24,17 @@ export default function ViewHome(props) {
         return `Error! ${error.message}`;
     }
     //
+    const userHash = {};
+    data.feedGet.userContexts.forEach(function (userContext) {
+        userHash[userContext.userId] = userContext;
+    });
     return (
         <React.Fragment>
             <Composer />
-            <Feed postContexts={data.feedGet.postContexts} />
+            <Feed
+                posts={data.feedGet.posts}
+                userContexts={userHash}
+            />
         </React.Fragment>
     );
 }

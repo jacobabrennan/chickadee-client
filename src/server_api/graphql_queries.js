@@ -32,13 +32,15 @@ export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!)
         }
     }
     userActivityGet(userId: $userId) {
-        postContexts {
-            post {
-                postId
-                authorId
-                text
-                created
-            }
+        posts {
+            postId
+            authorId
+            text
+            created
+        }
+        userContexts {
+            userId
+            name
         }
     }
 }`;
@@ -46,7 +48,7 @@ export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!)
 //-- Post ----------------------------------------
 export const MUTATION_postCreate = gql`mutation newPost($text: String!) {
     postCreate(text: $text) {
-        post {
+        posts {
             postId
             authorId
             text
@@ -59,13 +61,15 @@ export const MUTATION_postCreate = gql`mutation newPost($text: String!) {
 // NOTE: How to remove useless "getFeed" token?
 export const QUERY_feedGet = gql`query Feed($userId: String!) {
     feedGet(userId: $userId) {
-        postContexts {
-            post {
-                postId
-                authorId
-                text
-                created
-            }
+        posts {
+            postId
+            authorId
+            text
+            created
+        }
+        userContexts {
+            userId
+            name
         }
     }
 }`;
