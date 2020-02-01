@@ -6,7 +6,7 @@
 import React from 'react';
 
 //------------------------------------------------
-export const AuthenticationContext = React.createContext(null);
+export const authenticationContext = React.createContext(null);
 
 //-- User Id (am I logged in?) -------------------
 export async function getId() {

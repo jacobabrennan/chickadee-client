@@ -3,109 +3,79 @@
 //== User Info ==================================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer, useEffect } from 'react';
+import React, { useState, useEffect }/*, { useReducer, useEffect }*/ from 'react';
 import * as routing from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import {
-    QUERY_followersGet,
     MUTATION_followLinkAdd,
     MUTATION_followLinkRemove,
 } from '../server_api/graphql_queries.js';
 
 //-- Project Constants ---------------------------
 const URL_USER_PROFILE = '/user';
-const ACTION_FOLLOWERS_UPDATE = 'update followers';
-const ACTION_FOLLOWERS_ADD = 'add';
-const ACTION_FOLLOWERS_REMOVE = 'remove';
-
-//-- Initial State -------------------------------
-const stateInitial = {
-    followers: [],
-};
-
-//-- Action Reducer ------------------------------
-function reducer(state, action) {
-    let newState = Object.assign({}, state);
-    switch(action.type) {
-        case ACTION_FOLLOWERS_UPDATE: {
-            newState.followers = action.followers.slice();
-            break;
-        }
-        case ACTION_FOLLOWERS_ADD: {
-            let followerIndex = newState.followers.indexOf(action.followerId);
-            if(followerIndex !== -1) { break;}
-            newState.followers.push(action.followerId);
-            break;
-        }
-        case ACTION_FOLLOWERS_REMOVE: {
-            let followerIndex = newState.followers.indexOf(action.followerId);
-            if(followerIndex === -1) { break;}
-            newState.followers.splice(followerIndex, 1);
-            break;
-        }
-        default: {}
-    }
-    return newState;
-}
 
 //-- Main Component ------------------------------
 export default function UserInfo(props) {
     // Setup state hooks
-    const [state, dispatch] = useReducer(reducer, stateInitial);
-    const queryVariables = {userId: props.userId};
-    const queryOptions = {variables: queryVariables};
-    const followResponseGet = useQuery(QUERY_followersGet, queryOptions);
+    const [follow, followSet] = useState({
+        count: props.userData.followers.count,
+        following: props.userData.followers.following,
+    });
+    // Mutation Hooks
     const [followAdd, followResponseAdd] = useMutation(MUTATION_followLinkAdd);
     const [followRemove, followResponseRemove] = useMutation(MUTATION_followLinkRemove);
-    // Request
-    useEffect(function () {
-        if(!followResponseGet.data) { return;}
-        dispatch({
-            type: ACTION_FOLLOWERS_UPDATE,
-            followers: followResponseGet.data.followersGet,
-        });
-    }, [followResponseGet.data]);
+    // Mutation effect handlers
     useEffect(function () {
         if(!followResponseAdd.data || !followResponseAdd.data.followLinkAdd) { return;}
-        dispatch({type: ACTION_FOLLOWERS_ADD, followerId: 'asdf'});
-    }, [followResponseAdd.data])
+        followSet(function (followOld) {
+            return {
+                count: followOld.count + 1,
+                following: true,
+            };
+        });
+    }, [followResponseAdd.data]);
     useEffect(function () {
         if(!followResponseRemove.data || !followResponseRemove.data.followLinkRemove) { return;}
-        dispatch({type: ACTION_FOLLOWERS_REMOVE, followerId: 'asdf'})
-    }, [followResponseRemove.data])
-    //
+        followSet(function (followOld) {
+            return {
+                count: followOld.count - 1,
+                following: false,
+            };
+        });
+    }, [followResponseRemove.data]);
+    // User interaction handlers
     function handleFollow() {
-        followAdd({variables: {targetId: props.userId}});
+        if(followResponseAdd.loading) { return;}
+        followAdd({variables: {targetId: props.userData.userId}});
     }
     function handleUnfollow() {
-        followRemove({variables: {targetId: props.userId}});
-    }
-    //
-    if(followResponseGet.loading) { return 'Loading...';}
-    if(followResponseGet.error) {
-        return `Error! ${followResponseGet.error.message}`;
+        if(followResponseRemove.loading) { return;}
+        followRemove({variables: {targetId: props.userData.userId}});
     }
     // Render JSX
+    const userId = props.userData.userId;
+    const name = props.userData.name;
+    const description = props.userData.description;
     return (
         <div className="userinfo">
             <span className="username">
-                <routing.Link to={`${URL_USER_PROFILE}/${props.userId}`}>
-                    {props.userId}
+                <routing.Link to={`${URL_USER_PROFILE}/${userId}`}>
+                    {name || userId} (@{userId})
                 </routing.Link>
             </span>
+            <div>
+                {description}
+            </div>
             <br />
             <button
-                children="Follow"
+                children={follow.following? 'Unfollow' : 'Follow'}
                 disabled={false}
-                onClick={handleFollow}
-            />
-            <button
-                children="Unfollow"
-                disabled={false}
-                onClick={handleUnfollow}
+                onClick={follow.following? handleUnfollow : handleFollow}
             />
             <br />
-            Follower Count: {state.followers.length}
+            Follower Count: {follow.count}
+            <br />
+            {props.userData.followers.follows? 'Follows You' : ''}
         </div>
     );
 }

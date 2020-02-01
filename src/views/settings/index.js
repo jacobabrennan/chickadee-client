@@ -4,18 +4,15 @@
 
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect, useContext } from 'react';
-import client, { AuthenticationContext } from '../../server_api/index_old.js';
-import {
-    QUERY_userGet,
-    MUTATION_userUpdate,
-} from '../../server_api/graphql_queries_old.js';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { authenticationContext } from '../../server_api/index_old.js';
+import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
 import './index.css';
 
 //-- Project Constants ---------------------------
 const ACTION_CHANGE_NAME = 'change name';
 const ACTION_CHANGE_DESCRIPTION = 'change description';
-const ACTION_SUBMIT = 'submit';
-const ACTION_UPDATE_RESPONSE = 'update';
+const ACTION_SETTINGS_RESPONSE = 'settings response';
 
 //-- Initial State -------------------------------
 const stateInitial = {
@@ -26,22 +23,20 @@ const stateInitial = {
 
 //-- Action Reducer ------------------------------
 function reducer(state, action) {
+    console.log(action)
     let newState = Object.assign({}, state);
     switch(action.type) {
+        case ACTION_SETTINGS_RESPONSE: {
+            newState.nameText = action.data.name || '';
+            newState.descriptionText = action.data.description || '';
+            break;
+        }
         case ACTION_CHANGE_NAME: {
             newState.nameText = action.newText;
             break;
         }
         case ACTION_CHANGE_DESCRIPTION: {
             newState.descriptionText = action.newText;
-            break;
-        }
-        case ACTION_SUBMIT: {
-            break;
-        }
-        case ACTION_UPDATE_RESPONSE: {
-            newState.nameText = action.data.name;
-            newState.descriptionText = action.data.description;
             break;
         }
         default: {}
@@ -51,36 +46,35 @@ function reducer(state, action) {
 
 //------------------------------------------------
 export default function ViewSettings(props) {
-    //
-    const userData = useContext(AuthenticationContext)
+    // Setup hooks for state and database
+    const userData = useContext(authenticationContext)
     const [state, dispatch] = useReducer(reducer, stateInitial);
-    //
+    const settingsResponse = useQuery(QUERY_userGet, {variables: {
+        userId: userData.userId,
+    }});
+    const [userUpdate, userUpdateResponse] = useMutation(MUTATION_userUpdate);
+    // Reset form on database response
     useEffect(function () {
-        const variables = {userId: userData.userId};
-        client.graphQL(QUERY_userGet, variables).then(data => {
-            console.log(data)
-            dispatch({
-                type: ACTION_UPDATE_RESPONSE,
-                data: data.userGet,
-            })
-        });
-    }, [userData.userId]);
+        if(!settingsResponse.data){ return;}
+        dispatch({
+            type: ACTION_SETTINGS_RESPONSE,
+            data: settingsResponse.data.userGet,
+        })
+    }, [settingsResponse.data]);
+    useEffect(function () {
+        if(!userUpdateResponse.data){ return;}
+        dispatch({
+            type: ACTION_SETTINGS_RESPONSE,
+            data: userUpdateResponse.data.userUpdate,
+        })
+    }, [userUpdateResponse.data]);
     // Interaction Handlers
     function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
-        dispatch({
-            type: ACTION_SUBMIT,
-        });
-        const variables = {
+        userUpdate({variables: {
             name: state.nameText,
             description: state.descriptionText,
-        };
-        client.graphQL(MUTATION_userUpdate, variables).then(data => {
-            dispatch({
-                type: ACTION_UPDATE_RESPONSE,
-                data: data.userUpdate,
-            });
-        });
+        }});
     }
     function handleChangeName(eventChange) {
         dispatch({
@@ -94,7 +88,15 @@ export default function ViewSettings(props) {
             newText: eventChange.currentTarget.value,
         });
     }
+    //
+    if(settingsResponse.loading) {
+        return 'Loading';
+    }
+    if(settingsResponse.error) {
+        return 'Error'
+    }
     // Render JSX
+    console.log(state.nameText, state.descriptionText)
     return (
         <form className="profile_editor" onSubmit={handleSubmit}>
             <h1>Settings</h1>

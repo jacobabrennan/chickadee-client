@@ -20,25 +20,52 @@ export const MUTATION_userUpdate = gql`mutation updateUser($name: String, $descr
         description
     }
 }`;
+export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!) {
+    userGet(userId: $userId) {
+        userId
+        name
+        description
+        followers {
+            count
+            following
+            follows
+        }
+    }
+    userActivityGet(userId: $userId) {
+        postContexts {
+            post {
+                postId
+                authorId
+                text
+                created
+            }
+        }
+    }
+}`;
 
 //-- Post ----------------------------------------
 export const MUTATION_postCreate = gql`mutation newPost($text: String!) {
     postCreate(text: $text) {
-        postId
-        userId
-        text
-        created
+        post {
+            postId
+            authorId
+            text
+            created
+        }
     }
 }`;
 
 //-- Feed ----------------------------------------
+// NOTE: How to remove useless "getFeed" token?
 export const QUERY_feedGet = gql`query Feed($userId: String!) {
     feedGet(userId: $userId) {
-        posts {
-            postId
-            userId
-            text
-            created
+        postContexts {
+            post {
+                postId
+                authorId
+                text
+                created
+            }
         }
     }
 }`;

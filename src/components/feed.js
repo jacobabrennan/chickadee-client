@@ -10,8 +10,8 @@ import Post from './post.js';
 export default function Feed(props) {
     return (
         <div>
-            {props.posts.map(function (postData) {
-                return (<Post key={postData.postId} post={postData} />);
+            {props.postContexts.map(function (postContext) {
+                return (<Post key={postContext.post.postId} post={postContext.post} />);
             })}
         </div>
     );

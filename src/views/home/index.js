@@ -3,31 +3,21 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React from 'react';
+import React, { useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import { authenticationContext } from '../../server_api/authentication.js';
+import { QUERY_feedGet } from '../../server_api/graphql_queries.js';
 import Composer from '../../components/composer.js';
 import Feed from '../../components/feed.js';
 import './index.css';
 
-//-- GraphQL Queries -----------------------------
-// NOTE: How to remove useless "getFeed" token?
-const QUERY_feedGet = gql`query getFeed {
-    feedGet {
-        posts {
-            postId
-            userId
-            text
-            created
-        }
-    }
-}`;
-
 //------------------------------------------------
-export default function ViewHome() {
+export default function ViewHome(props) {
     // Setup state hooks
-    // const userData = useContext(AuthenticationContext);
-    const {loading, error, data} = useQuery(QUERY_feedGet);
+    const userData = useContext(authenticationContext);
+    const {loading, error, data} = useQuery(QUERY_feedGet, {variables: {
+        userId: userData.userId,
+    }});
     //
     if(loading) { return 'Loading...';}
     if(error) {
@@ -37,7 +27,7 @@ export default function ViewHome() {
     return (
         <React.Fragment>
             <Composer />
-            <Feed posts={data.feedGet.posts} />
+            <Feed postContexts={data.feedGet.postContexts} />
         </React.Fragment>
     );
 }

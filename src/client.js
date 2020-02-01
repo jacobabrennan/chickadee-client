@@ -6,7 +6,7 @@
 import React, { useReducer, useEffect } from 'react';
 import * as routing from 'react-router-dom';
 import { getId, logout } from './server_api/index_old.js';
-import { AuthenticationContext } from './server_api/index_old';
+import { authenticationContext } from './server_api/index_old';
 import ViewUser from './views/user/index.js';
 import ViewPost from './views/post/index.js';
 import ViewAuth from './views/authentication/index.js';
@@ -102,7 +102,7 @@ export default function Client(props) {
     };
     // Render normal client
     return (        
-        <AuthenticationContext.Provider value={userAuthorizationData}>
+        <authenticationContext.Provider value={userAuthorizationData}>
             <HeaderBar logout={handleLogout} />
             <routing.Switch>
                 <routing.Route path="/user/:userId">
@@ -121,7 +121,7 @@ export default function Client(props) {
                     <ViewNoRoute />
                 </routing.Route>
             </routing.Switch>
-        </AuthenticationContext.Provider>
+        </authenticationContext.Provider>
     );
 }
 
