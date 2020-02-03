@@ -10,6 +10,7 @@ import { QUERY_userDataPackage } from '../../server_api/graphql_queries.js';
 import Feed from '../../components/feed.js';
 import UserInfo from '../../components/user_info.js';
 import './index.css';
+import Loading from '../../components/loading.js';
 
 //-- Project Constants ---------------------------
 
@@ -23,16 +24,19 @@ export default function ViewUser() {
         variables: variables,
     });
     //
-    if(response.loading || response.error) {
-        return `${response.error}` || 'loading';
+    if(response.loading) {
+        return (<Loading />);
+    }
+    if(response.error) {
+        return `${response.error}`;
     }
     // Render JSX
     const userData = response.data.userGet;
-    const postContexts = response.data.userActivityGet.postContexts;
+    const feedData = response.data.userActivityGet;
     return (
         <React.Fragment>
             <UserInfo userData={userData} />
-            <Feed postContexts={postContexts} />
+            <Feed data={feedData} />
         </React.Fragment>
     );
 }

@@ -3,32 +3,35 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer, useEffect, useContext } from 'react';
+import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { authenticationContext } from '../../server_api/index_old.js';
 import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
 import './index.css';
+import Loading from '../../components/loading.js';
 
 //-- Project Constants ---------------------------
 const ACTION_CHANGE_NAME = 'change name';
 const ACTION_CHANGE_DESCRIPTION = 'change description';
 const ACTION_SETTINGS_RESPONSE = 'settings response';
+const ACTION_FILE_SELECT = 'portrait select';
 
 //-- Initial State -------------------------------
 const stateInitial = {
     nameText: '',
     descriptionText: '',
     portrait: null,
+    portraitUrl: null,
 }
 
 //-- Action Reducer ------------------------------
 function reducer(state, action) {
-    console.log(action)
     let newState = Object.assign({}, state);
     switch(action.type) {
         case ACTION_SETTINGS_RESPONSE: {
             newState.nameText = action.data.name || '';
             newState.descriptionText = action.data.description || '';
+            newState.portraitUrl = action.data.portraitUrl || null;
             break;
         }
         case ACTION_CHANGE_NAME: {
@@ -39,6 +42,10 @@ function reducer(state, action) {
             newState.descriptionText = action.newText;
             break;
         }
+        case ACTION_FILE_SELECT: {
+            newState.portrait = action.dataURL;
+            break;
+        }
         default: {}
     }
     return newState;
@@ -46,6 +53,7 @@ function reducer(state, action) {
 
 //------------------------------------------------
 export default function ViewSettings(props) {
+    const portraitDrawn = useRef();
     // Setup hooks for state and database
     const userData = useContext(authenticationContext)
     const [state, dispatch] = useReducer(reducer, stateInitial);
@@ -69,11 +77,12 @@ export default function ViewSettings(props) {
         })
     }, [userUpdateResponse.data]);
     // Interaction Handlers
-    function handleSubmit(eventSubmit) {
+    async function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
         userUpdate({variables: {
             name: state.nameText,
             description: state.descriptionText,
+            portrait: state.portrait,
         }});
     }
     function handleChangeName(eventChange) {
@@ -88,21 +97,63 @@ export default function ViewSettings(props) {
             newText: eventChange.currentTarget.value,
         });
     }
+    async function handleSelectPortrait(eventChange) {
+        const fileSelected = eventChange.currentTarget.files.item(0);
+        const fileBitmap = await createImageBitmap(fileSelected);
+        const canvas = portraitDrawn.current;
+        const context = canvas.getContext('2d');
+        //
+        const aspectRatioImage = fileBitmap.width / fileBitmap.height;
+        let drawWidth = 128;
+        let drawHeight = 128;
+        if(aspectRatioImage >= 1) {
+            drawWidth = drawHeight * aspectRatioImage;
+        } else {
+            drawHeight = drawWidth / aspectRatioImage;
+        }
+        //
+        context.drawImage(fileBitmap, 0, 0, drawWidth, drawHeight);
+        dispatch({
+            type: ACTION_FILE_SELECT,
+            dataURL: canvas.toDataURL('image/png', 1.0),
+        });
+    }
     //
     if(settingsResponse.loading) {
-        return 'Loading';
+        return (<Loading />);
     }
     if(settingsResponse.error) {
         return 'Error'
     }
     // Render JSX
-    console.log(state.nameText, state.descriptionText)
+    const portraitStyle = {
+        width: '128px',
+        height: '128px',
+        position: 'relative',
+        borderRadius: '50%',
+        backgroundColor: '#00000033',
+        overflow: 'hidden',
+    };
     return (
         <form className="profile_editor" onSubmit={handleSubmit}>
-            <h1>Settings</h1>
+            <h1>Edit Profile</h1>
             <label>
                 <span>Portrait</span>
-                <input type="file" />
+                <div style={portraitStyle}>
+                    <img src="camera_add.svg" style={{
+                        width: '32px',
+                        marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto',
+                        position: 'absolute', top: '0px', bottom: '0px', left: '0px', right: '0px',
+                    }} />
+                    {state.portraitUrl? 
+                        <img src={state.portraitUrl} width="128" height="128" />
+                        : ''
+                    }
+                    <canvas ref={portraitDrawn} width="128" height="128" style={{
+                        display: (state.portraitUrl? 'none' : 'block')
+                    }}/>
+                </div>
+                <input type="file" onChange={handleSelectPortrait} style={{display: 'none'}} />
             </label>
             <label>
                 <span>Display Name</span>

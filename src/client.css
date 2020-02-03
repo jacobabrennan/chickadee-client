@@ -7,14 +7,3 @@
 body {
     background: #eee;
 }
-.headerbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: solid var(--color-structure) 1px;
-    border-radius: var(--radius-structure);
-    padding: 1rem;
-    margin-bottom: 0.5rem;
-}
-.headerbar a {
-}

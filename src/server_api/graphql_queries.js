@@ -11,13 +11,15 @@ export const QUERY_userGet = gql`query getUser($userId: String!) {
         userId
         name
         description
+        portraitUrl
     }
 }`;
-export const MUTATION_userUpdate = gql`mutation updateUser($name: String, $description: String) {
-    userUpdate(name: $name, description: $description) {
+export const MUTATION_userUpdate = gql`mutation updateUser($name: String, $description: String, $portrait: String) {
+    userUpdate(name: $name, description: $description, portrait: $portrait) {
         userId
         name
         description
+        portraitUrl
     }
 }`;
 export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!) {
@@ -25,6 +27,7 @@ export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!)
         userId
         name
         description
+        portraitUrl
         followers {
             count
             following
@@ -41,6 +44,7 @@ export const QUERY_userDataPackage = gql`query userDataPackage($userId: String!)
         userContexts {
             userId
             name
+            portraitUrl
         }
     }
 }`;
@@ -53,6 +57,11 @@ export const MUTATION_postCreate = gql`mutation newPost($text: String!) {
             authorId
             text
             created
+        }
+        userContexts {
+            userId
+            name
+            portraitUrl
         }
     }
 }`;
@@ -70,6 +79,7 @@ export const QUERY_feedGet = gql`query Feed($userId: String!) {
         userContexts {
             userId
             name
+            portraitUrl
         }
     }
 }`;

@@ -1,0 +1,88 @@
+
+
+/*== Loading Spinner =========================================================*/
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    padding: 1rem;
+}
+.loading-spinner {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    animation-name: spin;
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    border: 2rem ridge white;
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+        opacity: 0;
+    }
+    28% {
+        transform:rotate(0deg);
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
+    88% {
+        opacity: 1;
+    }
+    to  {
+        transform:rotate(720deg);
+        opacity: 0;
+    }
+    /*
+    from {
+        transform:rotate(0deg);
+        background: #f00;
+        opacity: 0;
+    }
+    28% {
+        transform:rotate(0deg);
+        background: #f00;
+        opacity: 0;
+    }
+    40% {
+        background: #ff0;
+        opacity: 1;
+    }
+    52% { background: #0f0;}
+    64% { background: #0ff;}
+    76% { background: #00f;}
+    88% {
+        background: #f0f;
+        opacity: 1;
+    }
+    to  {
+        background: #f00;
+        transform:rotate(720deg);
+        opacity: 0;
+    } */
+    /* from {
+        transform:rotate(0deg);
+        background: #f00;
+    }
+    16% { background: #ff0;}
+    33% { background: #0f0;}
+    50% { background: #0ff;}
+    66% { background: #00f;}
+    83% { background: #f0f;}
+    to  {
+        background: #f00;
+        transform:rotate(720deg);
+    } */
+}

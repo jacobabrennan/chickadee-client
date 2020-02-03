@@ -3,19 +3,22 @@
 //== User Info ==================================================================
 
 //-- Dependencies --------------------------------
-import React, { useState, useEffect }/*, { useReducer, useEffect }*/ from 'react';
+import React, { useState, useEffect, useContext }/*, { useReducer, useEffect }*/ from 'react';
 import * as routing from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import {
     MUTATION_followLinkAdd,
     MUTATION_followLinkRemove,
 } from '../server_api/graphql_queries.js';
+import { authenticationContext } from '../server_api/index_old.js';
 
 //-- Project Constants ---------------------------
 const URL_USER_PROFILE = '/user';
 
 //-- Main Component ------------------------------
 export default function UserInfo(props) {
+    // NOTE: Need default portraitUrl
+    const authData = useContext(authenticationContext);
     // Setup state hooks
     const [follow, followSet] = useState({
         count: props.userData.followers.count,
@@ -56,8 +59,24 @@ export default function UserInfo(props) {
     const userId = props.userData.userId;
     const name = props.userData.name;
     const description = props.userData.description;
+    const portraitUrl = props.userData.portraitUrl;
+    let editButton = '';
+    if(authData.userId === userId) {
+        editButton = (
+            <React.Fragment>
+                <routing.Link
+                    to="/settings"
+                    children="Edit"
+                />
+            </React.Fragment>
+        );
+    }
     return (
         <div className="userinfo">
+            {editButton}
+            <br />
+            <img src={portraitUrl} alt={`Portrait of user ${userId}`} />
+            <br />
             <span className="username">
                 <routing.Link to={`${URL_USER_PROFILE}/${userId}`}>
                     {name || userId} (@{userId})

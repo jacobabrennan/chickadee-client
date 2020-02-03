@@ -12,6 +12,8 @@ import ViewPost from './views/post/index.js';
 import ViewAuth from './views/authentication/index.js';
 import ViewHome from './views/home/index.js';
 import ViewSettings from './views/settings/index.js';
+import HeaderBar from './components/header_bar.js';
+import Loading from './components/loading.js';
 import './client.css';
 
 //-- Project Constants ---------------------------
@@ -22,9 +24,6 @@ const ACTION_AUTH_FAIL = 'fail';
 const ACTION_AUTH_LOGOUT = 'logout';
 
 //-- Sub Components ------------------------------
-function ViewLoading() {
-    return <h1>Loading</h1>
-}
 function ViewNoRoute() {
     return '404';
 }
@@ -77,7 +76,7 @@ export default function Client(props) {
     useEffect(attemptAuth, []);
     // Show loading screen until authentication check completes
     if(state.userId === USER_LOADING) {
-        return <ViewLoading />
+        return <Loading />
     }
     // If confirmed not authenticated, render authentication sub-client
     if(state.userId === USER_NONE) {
@@ -99,11 +98,12 @@ export default function Client(props) {
     // Prepare Authorization Context
     const userAuthorizationData = {
         userId: state.userId,
+        onLogout: handleLogout,
     };
     // Render normal client
     return (        
         <authenticationContext.Provider value={userAuthorizationData}>
-            <HeaderBar logout={handleLogout} />
+            <HeaderBar />
             <routing.Switch>
                 <routing.Route path="/user/:userId">
                     <ViewUser />
@@ -122,18 +122,5 @@ export default function Client(props) {
                 </routing.Route>
             </routing.Switch>
         </authenticationContext.Provider>
-    );
-}
-
-//-- Header Bar subcomponent ---------------------
-function HeaderBar(props) {
-    return (
-        <header className="headerbar">
-            <routing.Link to="/">Home</routing.Link>
-            <button
-                children="Logout"
-                onClick={props.logout}
-            />
-        </header>
     );
 }

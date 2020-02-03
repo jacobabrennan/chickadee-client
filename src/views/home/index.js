@@ -10,6 +10,7 @@ import { QUERY_feedGet } from '../../server_api/graphql_queries.js';
 import Composer from '../../components/composer.js';
 import Feed from '../../components/feed.js';
 import './index.css';
+import Loading from '../../components/loading.js';
 
 //------------------------------------------------
 export default function ViewHome(props) {
@@ -19,22 +20,17 @@ export default function ViewHome(props) {
         userId: userData.userId,
     }});
     //
-    if(loading) { return 'Loading...';}
+    if(loading) {
+        return (<Loading />);
+    }
     if(error) {
         return `Error! ${error.message}`;
     }
     //
-    const userHash = {};
-    data.feedGet.userContexts.forEach(function (userContext) {
-        userHash[userContext.userId] = userContext;
-    });
     return (
         <React.Fragment>
             <Composer />
-            <Feed
-                posts={data.feedGet.posts}
-                userContexts={userHash}
-            />
+            <Feed data={data.feedGet} />
         </React.Fragment>
     );
 }
