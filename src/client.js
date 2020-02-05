@@ -108,7 +108,7 @@ export default function Client(props) {
                 <routing.Route path="/user/:userId">
                     <ViewUser />
                 </routing.Route>
-                <routing.Route path="/post/:id">
+                <routing.Route path="/post/:postId">
                     <ViewPost />
                 </routing.Route>
                 <routing.Route exact path="/settings">

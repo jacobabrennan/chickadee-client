@@ -21,7 +21,8 @@ export default function UserInfo(props) {
     const authData = useContext(authenticationContext);
     // Setup state hooks
     const [follow, followSet] = useState({
-        count: props.userData.followers.count,
+        countFollowers: props.userData.followers.countFollowers,
+        countFollowing: props.userData.followers.countFollowing,
         following: props.userData.followers.following,
     });
     // Mutation Hooks
@@ -32,7 +33,8 @@ export default function UserInfo(props) {
         if(!followResponseAdd.data || !followResponseAdd.data.followLinkAdd) { return;}
         followSet(function (followOld) {
             return {
-                count: followOld.count + 1,
+                countFollowers: followOld.countFollowers + 1,
+                countFollowing: followOld.countFollowing,
                 following: true,
             };
         });
@@ -41,7 +43,8 @@ export default function UserInfo(props) {
         if(!followResponseRemove.data || !followResponseRemove.data.followLinkRemove) { return;}
         followSet(function (followOld) {
             return {
-                count: followOld.count - 1,
+                countFollowers: followOld.countFollowers - 1,
+                countFollowing: followOld.countFollowing,
                 following: false,
             };
         });
@@ -92,7 +95,9 @@ export default function UserInfo(props) {
                 onClick={follow.following? handleUnfollow : handleFollow}
             />
             <br />
-            Follower Count: {follow.count}
+            <routing.Link to={`${URL_USER_PROFILE}/${userId}/followers`}>Follower Count: {follow.countFollowers}</routing.Link>
+            <br />
+            <routing.Link to={`${URL_USER_PROFILE}/${userId}/follows`}>Following Count: {follow.countFollowing}</routing.Link>
             <br />
             {props.userData.followers.follows? 'Follows You' : ''}
         </div>

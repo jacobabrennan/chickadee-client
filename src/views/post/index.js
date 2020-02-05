@@ -4,23 +4,45 @@
 
 //-- Dependencies --------------------------------
 import React, { useState } from 'react';
-// import * as routing from 'react-router-dom';
-// import * as clientAPI from '../client_api.js';
+import { useQuery } from '@apollo/react-hooks';
+import * as routing from 'react-router-dom';
+import Loading from '../../components/loading';
+import { QUERY_postGet } from '../../server_api/graphql_queries';
+import './index.css';
+
+//-- Project Constants ---------------------------
+const URL_USER_PROFILE = '/user';
 
 //------------------------------------------------
 export default function ViewPost() {
-    const [post] = useState(undefined);
+    // NOTE: Handle case where post doesn't exist (redirect via history)
+    const postId = routing.useParams().postId;
+    const postResponse = useQuery(QUERY_postGet, {variables: {
+        postId: postId,
+    }});
+    //
+    if(postResponse.loading) {
+        return (<Loading />);
+    }
+    if(postResponse.error) {
+        return `Error: ${postResponse.error}`;
+    }
+    //
+    function clickHandlerLink(eventClick) {
+        eventClick.stopPropagation();
+    }
     // Display post
-    if(post === undefined) {
-        return 'Requesting';
-    }
-    if(post === null) {
-        return 'Post not found';
-    }
+    const post = postResponse.data.postGet.posts[0];
+    const user = postResponse.data.postGet.userContexts[0];
+    const linkAuthor = `${URL_USER_PROFILE}/${post.authorId}`;
+    // const linkPost = `${URL_POST}/${post.postId}`;
     return (
         <React.Fragment>
-            <h1>{post.author}</h1>
-            <p>{post.body}</p>
+            <img src={user.portraitUrl} alt={`Portrait of user ${user.userId}`} />
+            <routing.Link to={linkAuthor} onClick={clickHandlerLink}>{
+                `${user.name} (@${user.userId})`
+            }</routing.Link>
+            <p>{post.text}</p>
         </React.Fragment>
     );
 }
