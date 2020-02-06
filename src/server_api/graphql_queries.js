@@ -3,7 +3,7 @@
 //== GraphQL Queries, Mutations, and Subscriptions =============================
 
 //-- Dependencies --------------------------------
-import { gql } from "apollo-boost";
+import { gql } from 'apollo-boost';
 
 //-- User ----------------------------------------
 export const QUERY_userGet = gql`query getUser($userId: String!) {

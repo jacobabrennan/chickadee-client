@@ -3,13 +3,12 @@
 //== Header Bar Component ======================================================
 
 //-- Dependencies --------------------------------
-import React, { useContext } from "react";
-import * as routing from "react-router-dom";
-import { authenticationContext } from "../server_api/index_old";
+import React, { useContext } from 'react';
+import * as routing from 'react-router-dom';
+import { authenticationContext } from '../authentication/index.js';
+import { URL_USER_PROFILE } from '../constants.js';
 import './header_bar.css';
 
-//-- Project Constants ---------------------------
-const URL_USER_PROFILE = '/user';
 
 //-- Header Bar subcomponent ---------------------
 export default function HeaderBar() {
@@ -28,7 +27,8 @@ export default function HeaderBar() {
                     children="Profile"
                 />
                 <button
-                    children="Logout"
+                    children="Log Out"
+                    className="button secondary"
                     onClick={userData.onLogout}
                 />
             </div>

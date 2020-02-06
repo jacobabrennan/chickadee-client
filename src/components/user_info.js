@@ -3,17 +3,15 @@
 //== User Info ==================================================================
 
 //-- Dependencies --------------------------------
-import React, { useState, useContext }/*, { useReducer, useEffect }*/ from 'react';
+import React, { useState, useContext } from 'react';
 import * as routing from 'react-router-dom';
-import { authenticationContext } from '../server_api/index_old.js';
+import { authenticationContext } from '../authentication/index.js';
 import {
     ButtonFollowToggle,
     ButtonProfileEdit,
 } from './button.js';
+import { URL_USER_PROFILE } from '../constants.js';
 import './user_info.css';
-
-//-- Project Constants ---------------------------
-const URL_USER_PROFILE = '/user';
 
 //-- Main Component ------------------------------
 export default function UserInfo(props) {
@@ -68,7 +66,7 @@ export default function UserInfo(props) {
                 <img
                     className="userinfo_portrait"
                     src={portraitUrl}
-                    alt={`Portrait of user ${userId}`}
+                    alt={`Portrait of user @${userId}`}
                 />
                 <div className="userinfo_follow">
                     {followButton}

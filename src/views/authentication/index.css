@@ -1,9 +1,0 @@
-form.auth {
-    padding: 2rem;
-    border: var(--border-structure);
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-structure);
-}
-form.auth_login {
-}

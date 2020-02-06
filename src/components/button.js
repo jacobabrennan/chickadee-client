@@ -3,8 +3,8 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React, { useEffect } from "react";
-import * as routing from "react-router-dom";
+import React, { useEffect } from 'react';
+import * as routing from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import {
     MUTATION_followLinkAdd,
@@ -35,7 +35,7 @@ export function ButtonFollow(props) {
     useEffect(function () {
         if(!response.data || !response.data.followLinkAdd) { return;}
         props.onClick();
-    }, [response.data]);
+    }, [response.data, props.onClick]);
     function handleClick(eventClick) {
         eventClick.stopPropagation();
         if(response.loading) { return;}
@@ -57,7 +57,7 @@ export function ButtonUnfollow(props) {
     useEffect(function () {
         if(!response.data || !response.data.followLinkRemove) { return;}
         props.onClick()
-    }, [response.data]);
+    }, [response.data, props.onClick]);
     function handleClick(eventClick) {
         eventClick.stopPropagation();
         if(response.loading) { return;}

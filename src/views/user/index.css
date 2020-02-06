@@ -66,3 +66,15 @@ a.userdetail_name:hover, a.userdetail_name:focus {
 .userdetail .button {
     align-self: flex-end;
 }
+.userdetail_splitter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.userdetail_splitter .button {
+    align-self: flex-start;
+}
+.userdetail_stacker {
+    display: flex;
+    flex-direction: column;
+}

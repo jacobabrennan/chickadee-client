@@ -1,15 +1,14 @@
 
 
-//== Full React Client =========================================================\
+//== Full React Client =========================================================
 
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect } from 'react';
 import * as routing from 'react-router-dom';
-import { getId, logout } from './server_api/index_old.js';
-import { authenticationContext } from './server_api/index_old';
+import { getId, logout } from './authentication/api.js'
+import ViewAuth, { authenticationContext } from './authentication/index.js';
 import ViewUser from './views/user/index.js';
 import ViewPost from './views/post/index.js';
-import ViewAuth from './views/authentication/index.js';
 import ViewHome from './views/home/index.js';
 import ViewSettings from './views/settings/index.js';
 import HeaderBar from './components/header_bar.js';

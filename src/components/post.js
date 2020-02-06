@@ -5,11 +5,11 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import * as routing from 'react-router-dom';
+import {
+    URL_USER_PROFILE,
+    URL_POST,
+} from '../constants.js'
 import './post.css';
-
-//-- Project Constants ---------------------------
-const URL_USER_PROFILE = '/user';
-const URL_POST = '/post';
 
 //------------------------------------------------
 export default function Post(props) {
@@ -27,7 +27,11 @@ export default function Post(props) {
     }
     return (
         <div className="post" onClick={clickHandler}>
-            <img className="post_portrait" src={userContext.portraitUrl} />
+            <img
+                className="post_portrait"
+                src={userContext.portraitUrl}
+                alt={`Portrait of user @${userContext.userId}`}
+            />
             <div className="post_content">
                 <routing.Link
                     className="post_author"

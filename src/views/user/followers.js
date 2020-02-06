@@ -11,11 +11,9 @@ import {
 } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
 import * as routing from 'react-router-dom';
-import { authenticationContext } from '../../server_api/index_old.js';
+import { authenticationContext } from '../../authentication/index.js';
 import { ButtonFollowToggle } from '../../components/button.js';
-
-//-- Project Constants ---------------------------
-const URL_USER_PROFILE = '/user';
+import { URL_USER_PROFILE } from '../../constants.js';
 
 //------------------------------------------------
 export function UserFollowers(props) {
@@ -82,10 +80,14 @@ function FollowDetail(props) {
     //
     const authData = useContext(authenticationContext);
     const [following, setFollowing] = useState(user.followers.following);
+    const history = routing.useHistory();
+    const userUrl = `${URL_USER_PROFILE}/${user.userId}`;
     // Interaction Handlers
     function clickHandler() {
+        history.push(userUrl);
     }
-    function clickHandlerLink() {
+    function clickHandlerLink(eventClick) {
+        eventClick.stopPropagation();
     }
     function handleFollowClick(followDelta) {
         if(followDelta ===  1){ setFollowing(true );}
@@ -110,24 +112,32 @@ function FollowDetail(props) {
     }
     return (
         <div className="userdetail" onClick={clickHandler}>
-            <img className="userdetail_portrait" src={user.portraitUrl} />
+            <img
+                className="userdetail_portrait"
+                src={user.portraitUrl}
+                alt={`Profile portrait for user @${user.userId}`}
+            />
             <div className="userdetail_content">
-                {followButton}
-                <routing.Link
-                    className="userdetail_name"
-                    to={`${URL_USER_PROFILE}/${user.userId}`}
-                    onClick={clickHandlerLink}
-                >
-                    <span
-                        className="userdetail_chosen"
-                        children={user.name || user.userId}
-                    />
-                    <span
-                        className="userdetail_id"
-                        children={user.userId}
-                    />
-                </routing.Link>
-                {followIndicator}
+                <div className="userdetail_splitter">
+                    <div className="userdetail_stacker">
+                        <routing.Link
+                            className="userdetail_name"
+                            to={`${URL_USER_PROFILE}/${user.userId}`}
+                            onClick={clickHandlerLink}
+                        >
+                            <span
+                                className="userdetail_chosen"
+                                children={user.name || user.userId}
+                            />
+                            <span
+                                className="userdetail_id"
+                                children={user.userId}
+                            />
+                        </routing.Link>
+                        {followIndicator}
+                    </div>
+                    {followButton}
+                </div>
                 <div className="userdetail_description">
                     {user.description}
                 </div>
@@ -135,26 +145,3 @@ function FollowDetail(props) {
         </div>
     );
 }
-
-        // <div className="post" onClick={clickHandler}>
-        //     <img className="post_portrait" src={userContext.portraitUrl} />
-        //     <div className="post_content">
-        //         <routing.Link
-        //             className="post_author"
-        //             to={linkAuthor}
-        //             onClick={clickHandlerLink}
-        //         >
-        //             <span
-        //                 className="post_author_name"
-        //                 children={userContext.name || userContext.userId}
-        //             />
-        //             <span
-        //                 className="post_author_id"
-        //                 children={userContext.userId}
-        //             />
-        //         </routing.Link>
-        //         <pre className="post_body">
-        //             {post.text}
-        //         </pre>
-        //     </div>
-        // </div>

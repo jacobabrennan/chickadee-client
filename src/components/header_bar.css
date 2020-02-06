@@ -9,8 +9,18 @@
 }
 .headerbar .headerbar_home {
 }
+.headerbar .headerbar_etc {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .headerbar .headerbar_etc > *{
     margin-left: 1rem;
+}
+.headerbar .headerbar_etc > .button{
+    font-size: inherit;
+    height: 3rem;
+    width: 10rem;
 }
 .headerbar a:link, .headerbar a:visited {
     color: var(--color-copy);

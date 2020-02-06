@@ -5,6 +5,7 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import Post from './post.js';
+import './feed.css';
 
 //-- Main Component ------------------------------
 export default function Feed(props) {
@@ -13,7 +14,7 @@ export default function Feed(props) {
         userHash[userContext.userId] = userContext;
     });
     return (
-        <div>
+        <div className="feed">
             {props.data.posts.map(function (post) {
                 return (
                     <Post

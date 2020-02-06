@@ -1,0 +1,13 @@
+
+.feed {
+}
+.feed:after {
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: '$> End of feed';
+    height: 50vh;
+    margin-top: var(--spacing-structure);
+    border-top: var(--border-structure);
+}

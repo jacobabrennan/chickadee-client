@@ -1,0 +1,33 @@
+.auth_modal {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.auth_form {
+    background: var(--color-field);
+    width: 40rem;
+    padding: var(--spacing-structure);
+    border: var(--border-structure);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-structure);
+}
+.auth_form > * {
+    font-size: larger;
+    margin-top: var(--spacing-structure);
+}
+.auth_prompt {
+    font-size: x-large;
+    color: var(--color-subdued);
+}
+.auth_form input {
+    border: var(--border-structure);
+    border-width: 0px 0px 1px 0px;
+}
+.auth_actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

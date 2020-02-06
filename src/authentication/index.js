@@ -5,14 +5,19 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import * as routing from 'react-router-dom';
-import { register, login } from '../../server_api/index_old.js';
+import { register, login } from './api.js';
 import './index.css';
 
-//-- Main Component ------------------------------
+//-- Authentication Context ----------------------
+export const authenticationContext = React.createContext(null);
+
+
+//== Main Component ============================================================
 /*
     Note: Log Out route not currently handled here, as this component only
     renders when the user IS NOT logged in.
 */
+
 export default function ViewAuth(props) {
     return (
         <routing.Switch>
@@ -48,9 +53,9 @@ function FormRegister(props) {
     }
     //
     return (
-        <React.Fragment>
-            <form className="auth auth_login" onSubmit={handleSubmit}>
-                Register
+        <div className="auth_modal">
+            <form className="auth_form" onSubmit={handleSubmit}>
+                <span className="auth_prompt">Register</span>
                 <input
                     name="username"
                     type="text"
@@ -66,10 +71,16 @@ function FormRegister(props) {
                     type="email"
                     placeholder="Email"
                 />
-                <button type="submit">Log in</button>
+                <div className="auth_actions">
+                    <button className="button" type="submit" children="Register" />
+                    <routing.Link
+                        className="button secondary"
+                        to="/login"
+                        children="Log in"
+                    />
+                </div>
             </form>
-            <routing.Link to="/login">Login</routing.Link>
-        </React.Fragment>
+        </div>
     );
 }    
 
@@ -88,9 +99,9 @@ function FormLogin(props) {
     }
     //
     return (
-        <React.Fragment>
-            <form className="auth auth_login" onSubmit={handleSubmit}>
-                Login
+        <div className="auth_modal">
+            <form className="auth_form" onSubmit={handleSubmit}>
+                <span className="auth_prompt">Log in</span>
                 <input
                     name="username"
                     type="text"
@@ -101,9 +112,15 @@ function FormLogin(props) {
                     type="password"
                     placeholder="Password"
                 />
-                <button type="submit">Log in</button>
+                <div className="auth_actions">
+                    <button className="button" type="submit" children="Log in" />
+                    <routing.Link
+                        className="button secondary"
+                        to="/register"
+                        children="Register"
+                    />
+                </div>
             </form>
-            <routing.Link to="/register">Register</routing.Link>
-        </React.Fragment>
+        </div>
     );
 }

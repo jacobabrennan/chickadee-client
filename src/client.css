@@ -14,7 +14,10 @@
     --border-structure: 1px solid var(--color-structure);
 }
 
-/*-- Link Reset --------------------------------*/
+/*-- Extra Reset -------------------------------*/
+input, textarea, button {
+    font-family: georgia, helvetica;
+}
 
 /*----------------------------------------------*/
 body {

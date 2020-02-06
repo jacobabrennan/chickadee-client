@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { authenticationContext } from '../../server_api/authentication.js';
+import { authenticationContext } from '../../authentication/index.js';
 import { QUERY_feedGet } from '../../server_api/graphql_queries.js';
 import Composer from '../../components/composer.js';
 import Feed from '../../components/feed.js';

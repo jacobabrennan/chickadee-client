@@ -4,9 +4,7 @@
 
 //-- Dependencies --------------------------------
 import ApolloClient from 'apollo-boost';
-
-//-- Project Constants ---------------------------
-const URL_GRAPHQL = '/data';
+import { URL_GRAPHQL } from '../constants.js';
 
 //------------------------------------------------
 const apolloOptions = {

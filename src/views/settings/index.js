@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { authenticationContext } from '../../server_api/index_old.js';
+import { authenticationContext } from '../../authentication/index.js';
 import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
 import './index.css';
@@ -130,9 +130,13 @@ export default function ViewSettings(props) {
         <form className="profile_editor" onSubmit={handleSubmit}>
             <div className="profile_editor_top">
                 <label className="portrait_container">
-                    <img className="profile_editor_camera_icon" src="camera_add.svg" />
+                    <img
+                        className="profile_editor_camera_icon"
+                        src="camera_add.svg"
+                        alt="Select file for profile portrait"
+                    />
                     {state.portraitUrl? 
-                        <img src={state.portraitUrl} width="128" height="128" className="profile_editor_portrait" />
+                        <img src={state.portraitUrl} width="128" height="128" className="profile_editor_portrait" alt="Profile Portrait" />
                         : ''
                     }
                     <canvas ref={portraitDrawn} width="128" height="128" style={{
