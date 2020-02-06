@@ -103,6 +103,7 @@ export default function Client(props) {
     // Render normal client
     return (        
         <authenticationContext.Provider value={userAuthorizationData}>
+            <div className="client">
             <HeaderBar />
             <routing.Switch>
                 <routing.Route path="/user/:userId">
@@ -121,6 +122,7 @@ export default function Client(props) {
                     <ViewNoRoute />
                 </routing.Route>
             </routing.Switch>
+            </div>
         </authenticationContext.Provider>
     );
 }

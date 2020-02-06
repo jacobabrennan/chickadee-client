@@ -1,0 +1,83 @@
+
+.userinfo {
+    padding: var(--spacing-structure);
+}
+.userinfo_glance {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.userinfo_portrait {
+    border-radius: var(--spacing-structure);
+    width: 128px;
+    height: 128px;
+}
+.userinfo_edit {
+    font-size: 2rem;
+    height: 4rem;
+    width: 14rem;
+    color: var(--color-field);
+    font-weight: bold;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-structure);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userinfo_edit:hover, .userinfo_edit:focus {
+    background: var(--color-action);
+}
+.userinfo_follow {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.userinfo_follow > * {
+    margin-bottom: 0.5rem;
+}
+.userinfo_follow_indicator {
+    display: inline-block;
+    color: var(--color-subdued);
+    background: var(--color-field);
+    height: 2.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    vertical-align: middle;
+    line-height: 2.5rem;
+    border-radius: var(--radius-structure);
+}
+a.userinfo_count {
+    color: var(--color-primary);
+}
+a.userinfo_count:hover, a.userinfo_follow:focus {
+    text-decoration: underline;
+}
+.userinfo_name {
+    font-size: x-large;
+    margin-top: var(--spacing-structure);
+}
+.userinfo_chosen {
+    font-weight: bold;
+}
+.userinfo_id {
+    margin-left: 1ex;
+    color: var(--color-subdued);
+}
+.userinfo_id:before {
+    content: '@';
+}
+.userinfo_description {
+    margin-top: var(--spacing-structure);
+}
+
+
+/*
+userinfo_glance
+    userinfo_portrait
+userinfo_name
+    userinfo_chosen
+    userinfo_id
+userinfo_description
+*/

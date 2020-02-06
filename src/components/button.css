@@ -1,0 +1,30 @@
+
+.button {
+    font-size: 2rem;
+    height: 4rem;
+    width: 14rem;
+    color: var(--color-field);
+    font-weight: bold;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-structure);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button:hover, .button:focus {
+    background: var(--color-action);
+}
+.button.danger:hover, .button.danger:focus {
+    background: var(--color-danger);
+}
+.button .button_message_normal{ display: inline;}
+.button:hover .button_message_normal,
+.button:focus .button_message_normal {
+    display: none;
+}
+.button .button_message_hover{ display: none;}
+.button:hover .button_message_hover,
+.button:focus .button_message_hover {
+    display: inline;
+}

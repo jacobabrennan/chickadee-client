@@ -1,9 +1,33 @@
+
+/*-- Variables ---------------------------------*/
 :root {
+    --color-copy: #000;
+    --color-field: #fff;
+    --color-backdrop: #eee;
     --color-structure: #bbb;
+    --color-subdued: #888;
+    --color-primary: #08f;
+    --color-danger: #f08;
+    --color-action: #4a4;
     --radius-structure: 0.5rem;
-    --padding-structure: 1rem;
+    --spacing-structure: 1rem;
     --border-structure: 1px solid var(--color-structure);
 }
+
+/*-- Link Reset --------------------------------*/
+
+/*----------------------------------------------*/
 body {
-    background: #eee;
+    background: var(--color-backdrop);
+    min-height: 100vh;
+    font-family: georgia, helvetica;
+}
+.client {
+    max-width: 60rem;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 100vh;
+    outline: 1px dotted var(--color-field);
+    border-left: 2px solid var(--color-structure);
+    border-right: 2px solid var(--color-structure);
 }

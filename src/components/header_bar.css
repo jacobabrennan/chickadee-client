@@ -3,13 +3,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: solid var(--color-structure) 1px;
-    border-radius: var(--radius-structure);
-    padding: 1rem;
-    margin-bottom: 0.5rem;
+    padding: var(--spacing-structure);
+    margin-bottom: var(--spacing-structure);
+    border-bottom: var(--border-structure);
 }
 .headerbar .headerbar_home {
 }
 .headerbar .headerbar_etc > *{
     margin-left: 1rem;
+}
+.headerbar a:link, .headerbar a:visited {
+    color: var(--color-copy);
+    font-weight: bold;
+}
+.headerbar a:link:hover, .headerbar a:link:focus {
+    text-decoration: underline;
 }

@@ -3,7 +3,7 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import {
     QUERY_followersGet,
@@ -11,6 +11,8 @@ import {
 } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
 import * as routing from 'react-router-dom';
+import { authenticationContext } from '../../server_api/index_old.js';
+import { ButtonFollowToggle } from '../../components/button.js';
 
 //-- Project Constants ---------------------------
 const URL_USER_PROFILE = '/user';
@@ -75,20 +77,84 @@ export function UserFollows(props) {
 
 //------------------------------------------------
 function FollowDetail(props) {
+    //
     const user = props.user;
+    //
+    const authData = useContext(authenticationContext);
+    const [following, setFollowing] = useState(user.followers.following);
+    // Interaction Handlers
+    function clickHandler() {
+    }
+    function clickHandlerLink() {
+    }
+    function handleFollowClick(followDelta) {
+        if(followDelta ===  1){ setFollowing(true );}
+        if(followDelta === -1){ setFollowing(false);}
+    }
+    // JSX Render
+    let followButton = '';
+    if(authData.userId !== user.userId) {
+        followButton = (
+            <ButtonFollowToggle
+                following={following}
+                userId={user.userId}
+                onClick={handleFollowClick}
+            />
+        );
+    }
+    let followIndicator = '';
+    if(user.followers.follows) {
+        followIndicator = (
+            <span className="userdetail_followind" children="Follows You" />
+        )
+    }
     return (
-        <div>
-            <img src={user.portraitUrl} />
-            <routing.Link to={`${URL_USER_PROFILE}/${user.userId}`}>
-                {user.name} (@{user.userId})
-            </routing.Link>
-            <div>
-                {user.description}
-            </div>
-            <div>
-                {user.followers.following? 'You Follow' : ''}
-                {user.followers.follows? 'Follows You' : ''}
+        <div className="userdetail" onClick={clickHandler}>
+            <img className="userdetail_portrait" src={user.portraitUrl} />
+            <div className="userdetail_content">
+                {followButton}
+                <routing.Link
+                    className="userdetail_name"
+                    to={`${URL_USER_PROFILE}/${user.userId}`}
+                    onClick={clickHandlerLink}
+                >
+                    <span
+                        className="userdetail_chosen"
+                        children={user.name || user.userId}
+                    />
+                    <span
+                        className="userdetail_id"
+                        children={user.userId}
+                    />
+                </routing.Link>
+                {followIndicator}
+                <div className="userdetail_description">
+                    {user.description}
+                </div>
             </div>
         </div>
     );
 }
+
+        // <div className="post" onClick={clickHandler}>
+        //     <img className="post_portrait" src={userContext.portraitUrl} />
+        //     <div className="post_content">
+        //         <routing.Link
+        //             className="post_author"
+        //             to={linkAuthor}
+        //             onClick={clickHandlerLink}
+        //         >
+        //             <span
+        //                 className="post_author_name"
+        //                 children={userContext.name || userContext.userId}
+        //             />
+        //             <span
+        //                 className="post_author_id"
+        //                 children={userContext.userId}
+        //             />
+        //         </routing.Link>
+        //         <pre className="post_body">
+        //             {post.text}
+        //         </pre>
+        //     </div>
+        // </div>

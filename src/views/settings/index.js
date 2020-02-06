@@ -7,8 +7,8 @@ import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { authenticationContext } from '../../server_api/index_old.js';
 import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
-import './index.css';
 import Loading from '../../components/loading.js';
+import './index.css';
 
 //-- Project Constants ---------------------------
 const ACTION_CHANGE_NAME = 'change name';
@@ -126,36 +126,25 @@ export default function ViewSettings(props) {
         return 'Error'
     }
     // Render JSX
-    const portraitStyle = {
-        width: '128px',
-        height: '128px',
-        position: 'relative',
-        borderRadius: '50%',
-        backgroundColor: '#00000033',
-        overflow: 'hidden',
-    };
     return (
         <form className="profile_editor" onSubmit={handleSubmit}>
-            <h1>Edit Profile</h1>
-            <label>
-                <span>Portrait</span>
-                <div style={portraitStyle}>
-                    <img src="camera_add.svg" style={{
-                        width: '32px',
-                        marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto',
-                        position: 'absolute', top: '0px', bottom: '0px', left: '0px', right: '0px',
-                    }} />
+            <div className="profile_editor_top">
+                <label className="portrait_container">
+                    <img className="profile_editor_camera_icon" src="camera_add.svg" />
                     {state.portraitUrl? 
-                        <img src={state.portraitUrl} width="128" height="128" />
+                        <img src={state.portraitUrl} width="128" height="128" className="profile_editor_portrait" />
                         : ''
                     }
                     <canvas ref={portraitDrawn} width="128" height="128" style={{
                         display: (state.portraitUrl? 'none' : 'block')
                     }}/>
-                </div>
-                <input type="file" onChange={handleSelectPortrait} style={{display: 'none'}} />
-            </label>
-            <label>
+                    <input type="file" onChange={handleSelectPortrait} />
+                </label>
+                <label>
+                    <button className="button" type="submit" children="Save" />
+                </label>
+            </div>
+            <label className="profile_editor_name">
                 <span>Display Name</span>
                 <input
                     type="text"
@@ -164,16 +153,13 @@ export default function ViewSettings(props) {
                     onChange={handleChangeName}
                 />
             </label>
-            <label>
+            <label className="profile_editor_description">
                 <span>Description</span>
                 <textarea
                     name="description"
                     value={state.descriptionText}
                     onChange={handleChangeDescription}
                 />
-            </label>
-            <label>
-                <button type="submit" children="Save" />
             </label>
         </form>
     );

@@ -1,11 +1,68 @@
 
 /*----------------------------------------------*/
-.userinfo {
-    padding: var(--padding-structure);
-    border: var(--border-structure);
-    border-radius: var(--radius-structure);
+
+
+/*-- User Detail : Followers & Following -------*/
+.userdetail{
+    background: var(--color-field);
+    padding: var(--spacing-structure);
+    margin-top: var(--spacing-structure);
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
 }
-.userinfo .username {
-    font-size: larger;
-    font-weight: bold;;
+.userdetail_portrait {
+    border-radius: var(--radius-structure);
+    width: 64px;
+    height: 64px;
+    margin-right: var(--spacing-structure);
+}
+.userdetail_content {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.userdetail_followind {
+    display: inline-block;
+    color: var(--color-copy);
+    background: var(--color-backdrop);
+    height: 2.5rem;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    vertical-align: middle;
+    line-height: 2.5rem;
+    border-radius: var(--radius-structure);
+    align-self: flex-start;
+}
+.userdetail_name {
+    font-size: large;
+    align-self: flex-start;
+}
+a.userdetail_name {
+    color: var(--color-copy);
+    font-weight: bold;
+}
+a.userdetail_name:hover, a.userdetail_name:focus {
+    text-decoration: underline;
+}
+.userdetail_chosen {
+    font-weight: bold;
+}
+.userdetail_id {
+    margin-left: 1ex;
+    color: var(--color-subdued);
+}
+.userdetail_id::before {
+    content: '@';
+}
+.userdetail_description {
+    margin-top: var(--spacing-structure);
+    padding-top: var(--spacing-structure);
+    border-top: var(--border-structure);
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+.userdetail .button {
+    align-self: flex-end;
 }

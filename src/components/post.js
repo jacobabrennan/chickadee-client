@@ -28,13 +28,24 @@ export default function Post(props) {
     return (
         <div className="post" onClick={clickHandler}>
             <img className="post_portrait" src={userContext.portraitUrl} />
-            <routing.Link to={linkAuthor} onClick={clickHandlerLink}>
-                <span className="post_author">
-                {userContext.name || userContext.userId} (@{userContext.userId})
-                </span>
-            </routing.Link>
-            <div className="post_body">
-                {post.text}
+            <div className="post_content">
+                <routing.Link
+                    className="post_author"
+                    to={linkAuthor}
+                    onClick={clickHandlerLink}
+                >
+                    <span
+                        className="post_author_name"
+                        children={userContext.name || userContext.userId}
+                    />
+                    <span
+                        className="post_author_id"
+                        children={userContext.userId}
+                    />
+                </routing.Link>
+                <div className="post_body">
+                    {post.text}
+                </div>
             </div>
         </div>
     );

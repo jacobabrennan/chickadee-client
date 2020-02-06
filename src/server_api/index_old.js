@@ -25,11 +25,9 @@ export default {
         };
         let response = await fetch(URL_GRAPHQL, requestOptions);
             // Note: network errors propagated (not caught)
-        console.log(response);
         //
         if(!response.ok) {
             let jerp = await response.json();
-            console.log(jerp)
             return null;
         }
         const dataUpdate = await response.json();

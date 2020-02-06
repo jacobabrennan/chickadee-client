@@ -2,9 +2,7 @@
 /*-- Composer-----------------------------------*/
 .composer {
     width: 100%;
-    padding: 1rem;
-    border: var(--border-structure);
-    border-radius: var(--radius-structure);
+    padding: var(--spacing-structure);
 }
 .composer_input {
     width: 100%;

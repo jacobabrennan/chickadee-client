@@ -56,7 +56,6 @@ export async function register(userName, password, email) {
         return null;
     }
     //
-    console.log(userData)
     return userData.userId;
 }
 

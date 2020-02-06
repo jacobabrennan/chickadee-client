@@ -3,14 +3,14 @@
 //== User Info ==================================================================
 
 //-- Dependencies --------------------------------
-import React, { useState, useEffect, useContext }/*, { useReducer, useEffect }*/ from 'react';
+import React, { useState, useContext }/*, { useReducer, useEffect }*/ from 'react';
 import * as routing from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
-import {
-    MUTATION_followLinkAdd,
-    MUTATION_followLinkRemove,
-} from '../server_api/graphql_queries.js';
 import { authenticationContext } from '../server_api/index_old.js';
+import {
+    ButtonFollowToggle,
+    ButtonProfileEdit,
+} from './button.js';
+import './user_info.css';
 
 //-- Project Constants ---------------------------
 const URL_USER_PROFILE = '/user';
@@ -25,81 +25,74 @@ export default function UserInfo(props) {
         countFollowing: props.userData.followers.countFollowing,
         following: props.userData.followers.following,
     });
-    // Mutation Hooks
-    const [followAdd, followResponseAdd] = useMutation(MUTATION_followLinkAdd);
-    const [followRemove, followResponseRemove] = useMutation(MUTATION_followLinkRemove);
-    // Mutation effect handlers
-    useEffect(function () {
-        if(!followResponseAdd.data || !followResponseAdd.data.followLinkAdd) { return;}
+    // Interaction Handlers
+    function handleChange(followersDelta) {
         followSet(function (followOld) {
+            let following = followOld.following;
+            if(followersDelta ===  1) { following = true;}
+            if(followersDelta === -1) { following = false;}
             return {
-                countFollowers: followOld.countFollowers + 1,
+                countFollowers: followOld.countFollowers + followersDelta,
                 countFollowing: followOld.countFollowing,
-                following: true,
+                following: following,
             };
         });
-    }, [followResponseAdd.data]);
-    useEffect(function () {
-        if(!followResponseRemove.data || !followResponseRemove.data.followLinkRemove) { return;}
-        followSet(function (followOld) {
-            return {
-                countFollowers: followOld.countFollowers - 1,
-                countFollowing: followOld.countFollowing,
-                following: false,
-            };
-        });
-    }, [followResponseRemove.data]);
-    // User interaction handlers
-    function handleFollow() {
-        if(followResponseAdd.loading) { return;}
-        followAdd({variables: {targetId: props.userData.userId}});
-    }
-    function handleUnfollow() {
-        if(followResponseRemove.loading) { return;}
-        followRemove({variables: {targetId: props.userData.userId}});
     }
     // Render JSX
     const userId = props.userData.userId;
     const name = props.userData.name;
     const description = props.userData.description;
     const portraitUrl = props.userData.portraitUrl;
-    let editButton = '';
+    let followButton = '';
     if(authData.userId === userId) {
-        editButton = (
-            <React.Fragment>
-                <routing.Link
-                    to="/settings"
-                    children="Edit"
-                />
-            </React.Fragment>
+        followButton = (<ButtonProfileEdit />);
+    }
+    else {
+        followButton = (
+            <ButtonFollowToggle
+                following={follow.following}
+                userId={userId}
+                onClick={handleChange}
+            />
+        );
+    }
+    let followIndicator = '';
+    if(props.userData.followers.follows) {
+        followIndicator = (
+            <span className="userinfo_follow_indicator" children="Follows You" />
         );
     }
     return (
         <div className="userinfo">
-            {editButton}
-            <br />
-            <img src={portraitUrl} alt={`Portrait of user ${userId}`} />
-            <br />
-            <span className="username">
-                <routing.Link to={`${URL_USER_PROFILE}/${userId}`}>
-                    {name || userId} (@{userId})
-                </routing.Link>
-            </span>
-            <div>
-                {description}
+            <div className="userinfo_glance">
+                <img
+                    className="userinfo_portrait"
+                    src={portraitUrl}
+                    alt={`Portrait of user ${userId}`}
+                />
+                <div className="userinfo_follow">
+                    {followButton}
+                    {followIndicator}
+                    <routing.Link
+                        className="userinfo_count"
+                        to={`${URL_USER_PROFILE}/${userId}/follows`}
+                        children={`${follow.countFollowing} Following`}
+                    />
+                    <routing.Link
+                        className="userinfo_count"
+                        to={`${URL_USER_PROFILE}/${userId}/followers`}
+                        children={`${follow.countFollowers} Followers`}
+                    />
+                </div>
             </div>
-            <br />
-            <button
-                children={follow.following? 'Unfollow' : 'Follow'}
-                disabled={false}
-                onClick={follow.following? handleUnfollow : handleFollow}
-            />
-            <br />
-            <routing.Link to={`${URL_USER_PROFILE}/${userId}/followers`}>Follower Count: {follow.countFollowers}</routing.Link>
-            <br />
-            <routing.Link to={`${URL_USER_PROFILE}/${userId}/follows`}>Following Count: {follow.countFollowing}</routing.Link>
-            <br />
-            {props.userData.followers.follows? 'Follows You' : ''}
+            <div
+                className="userinfo_name"
+                to={`${URL_USER_PROFILE}/${userId}`}
+            >
+                <span className="userinfo_chosen" children={name || userId} />
+                <span className="userinfo_id" children={userId} />
+            </div>
+            <div className="userinfo_description" children={description} />
         </div>
     );
 }

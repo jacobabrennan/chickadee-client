@@ -4,16 +4,69 @@
 
 /*----------------------------------------------*/
 .profile_editor {
-    border: var(--border-structure);
-    border-radius: var(--radius-structure);
-    padding: var(--padding-structure);
+    padding: var(--spacing-structure);
     display: flex;
     flex-direction: column;
 }
 .profile_editor label {
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: var(--spacing-structure);
     /* padding-top: 1rem;
     border-top: var(--border-structure); */
+}
+.profile_editor_top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.portrait_container {
+    width: 128px;
+    height: 128px;
+    position: relative;
+    border-radius: var(--spacing-structure);
+    background-color: #00000033;
+    overflow: hidden;
+}
+.portrait_container input {
+    display: none;
+}
+.profile_editor_portrait {
+    width: 128px;
+    height: 128px;
+}
+.profile_editor_camera_icon {
+    width: 32px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+.profile_editor_description, .profile_editor_name {
+    border-radius: var(--radius-structure);
+    background: var(--color-field);
+    padding: var(--spacing-structure);
+    padding-right: 0px;
+}
+.profile_editor_description span, .profile_editor_name span{
+    color: var(--color-subdued);
+}
+.profile_editor_description textarea, .profile_editor_name input {
+    font-family: georgia, helvetica;
+    font-size: larger;
+    padding-top: 0.5rem;
+    background: var(--color-field);
+    border: none;
+}
+.profile_editor_description textarea {
+    resize: none;
+    height: 6em;
+    padding: 0px;
+    line-height: 1.5em;
+    overflow: auto;
 }
