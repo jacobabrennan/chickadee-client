@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useReducer, useEffect, useContext, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { authenticationContext } from '../../authentication/index.js';
+import authenticationContext from '../../authentication/index.js';
 import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
 import './index.css';
@@ -55,7 +55,7 @@ function reducer(state, action) {
 export default function ViewSettings(props) {
     const portraitDrawn = useRef();
     // Setup hooks for state and database
-    const userData = useContext(authenticationContext)
+    const userData = useContext(authenticationContext).userData;
     const [state, dispatch] = useReducer(reducer, stateInitial);
     const settingsResponse = useQuery(QUERY_userGet, {variables: {
         userId: userData.userId,

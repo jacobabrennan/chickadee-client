@@ -10,6 +10,7 @@ import Loading from '../../components/loading';
 import { QUERY_postGet } from '../../server_api/graphql_queries';
 import Post from '../../components/post.js';
 import './index.css';
+import Composer from '../../components/composer';
 
 //------------------------------------------------
 export default function ViewPost() {
@@ -35,6 +36,7 @@ export default function ViewPost() {
     return (
         <React.Fragment>
             <Post post={post} userContext={user} />
+            <Composer postId={post} user={user} />
         </React.Fragment>
     );
 }

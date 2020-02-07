@@ -6,8 +6,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    content: '$> End of feed';
+    /* content: '$> End of feed'; */
+    content: '';
     height: 50vh;
     margin-top: var(--spacing-structure);
     border-top: var(--border-structure);
+    /* animation-name: translate_stripes;
+    animation-duration: 3500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--color-backdrop),
+        var(--color-backdrop) 10px,
+        var(--color-field) 10px,
+        var(--color-field) 20px
+    ); */
 }
+/* @keyframes translate_stripes {
+    from {
+        background-position: 0px 0px;
+    }
+    to  {
+        background-position: -29px 0px;
+    }
+} */

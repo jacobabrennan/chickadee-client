@@ -6,6 +6,18 @@
 import { gql } from 'apollo-boost';
 
 //-- User ----------------------------------------
+export const QUERY_authGet = gql`query getAuthentication {
+    authGet {
+        userId
+        name
+        description
+        portraitUrl
+        followers {
+            countFollowers
+            countFollowing
+        }
+    }
+}`;
 export const QUERY_userGet = gql`query getUser($userId: String!) {
     userGet(userId: $userId) {
         userId

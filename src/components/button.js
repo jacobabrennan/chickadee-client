@@ -35,7 +35,7 @@ export function ButtonFollow(props) {
     useEffect(function () {
         if(!response.data || !response.data.followLinkAdd) { return;}
         props.onClick();
-    }, [response.data, props.onClick]);
+    }, [response.data, props]);
     function handleClick(eventClick) {
         eventClick.stopPropagation();
         if(response.loading) { return;}
@@ -57,7 +57,7 @@ export function ButtonUnfollow(props) {
     useEffect(function () {
         if(!response.data || !response.data.followLinkRemove) { return;}
         props.onClick()
-    }, [response.data, props.onClick]);
+    }, [response.data, props]);
     function handleClick(eventClick) {
         eventClick.stopPropagation();
         if(response.loading) { return;}

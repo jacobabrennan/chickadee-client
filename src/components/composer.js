@@ -3,54 +3,22 @@
 //== New Post Composer =========================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_postCreate } from '../server_api/graphql_queries.js';
 import './composer.css';
 
-//-- Project Constants ---------------------------
-const ACTION_RESET = 'reset';
-const ACTION_CHANGE_TEXT = 'text';
-
-//-- Initial State -------------------------------
-const stateInitial = {
-    bodyText: '',
-};
-
-//-- Action Reducer ------------------------------
-function reducer(state, action) {
-    let newState = Object.assign({}, state);
-    switch(action.type) {
-        // Handle user typing letters into composer textarea
-        case ACTION_CHANGE_TEXT: {
-            newState.bodyText = action.bodyText;
-            break;
-        }
-        // Reset composer once new post successfully submitted
-        case ACTION_RESET: {
-            newState = Object.assign({}, stateInitial);
-            break;
-        }
-        // Default: Needed because React whines
-        default: {}
-    }
-    return newState;
-}
-
 //-- React Component -----------------------------
-export default function Composer() {
+export default function Composer(props) {
     // State Management
-    const [state, dispatch] = useReducer(reducer, stateInitial);
+    const [state, setState] = useState({bodyText: ''});
     const [postCreate, {loading, /*error,*/ data}] = useMutation(MUTATION_postCreate);
     useEffect(function () {
-        dispatch({type: ACTION_RESET});
+        setState({bodyText: ''});
     }, [data])
     // User Interaction Handlers
     function handleChangeText(eventChange) {
-        dispatch({
-            type: ACTION_CHANGE_TEXT,
-            bodyText: eventChange.currentTarget.value,
-        });
+        setState({bodyText: eventChange.currentTarget.value});
     }
     function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
@@ -60,6 +28,11 @@ export default function Composer() {
     // JSX Rendering
     return (
         <form className="composer" onSubmit={handleSubmit}>
+            <img
+                className="composer_portrait"
+                src={props.user.portraitUrl}
+                alt={`Portrait of user @${props.user.userId}`}
+            />
             <fieldset disabled={loading}>
                 <textarea
                     className="composer_input"
@@ -69,6 +42,7 @@ export default function Composer() {
                     onChange={handleChangeText}
                 />
                 <button
+                    className="button"
                     type="submit"
                     children="Submit"
                 />

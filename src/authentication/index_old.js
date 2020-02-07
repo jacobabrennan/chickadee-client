@@ -3,17 +3,13 @@
 //== Authentication Client and route handler ===================================
 
 //-- Dependencies --------------------------------
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as routing from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { register, login, logout } from './api.js';
 import { QUERY_authGet } from '../server_api/graphql_queries.js';
 import Loading from '../components/loading.js';
 import './index.css';
-
-//-- Project Constants ---------------------------
-const AUTH_OUT = 'logged out';
-const AUTH_UNKNOWN = null;
 
 //-- Authentication Context ----------------------
 const authenticationContext = React.createContext({
@@ -23,36 +19,27 @@ export default authenticationContext;
 
 //-- Authentication Wraper -----------------------
 export function Authenticate(props) {
-    const [authData, setAuthData] = useState(AUTH_UNKNOWN);
+    // Setup hooks
+    const [authData, setAuthData] = useState();
     const history = routing.useHistory();
-    const response = useQuery(QUERY_authGet, {
-        notifyOnNetworkStatusChange: true,
-        fetchPolicy: 'no-cache',
-        onCompleted: function (data) {
-            const userData = data.authGet;
-            if(!userData) {
-                setAuthData(AUTH_OUT);
-                return;
-            }
-            setAuthData({
-                userData: userData,
-                onLogout: async function () {
-                    await logout();
-                    setAuthData(AUTH_OUT);
-                    history.push('/auth/login');
-                },
-            });
-        },
-    });
-    // Display loading screen until authentication check completes
-    if(response.loading || authData === AUTH_UNKNOWN) {
-        return (<Loading />);
+    // If not authenticated, render authentication sub-client
+    if(!authData) {
+        return (
+            <ViewAuth
+                onLogin={
+                    function(data) {
+                        setAuthData(data);
+                    }
+                }
+                onLogout={
+                    function () {
+                        setAuthData(null);
+                    }
+                }
+            />
+        );
     }
-    // Display authentication subclient
-    if(authData === AUTH_OUT) {
-        return <ViewAuth onLogin={response.refetch} />
-    }
-    // Display Contents
+    // Render JSX
     return (
         <authenticationContext.Provider
             value={authData}
@@ -60,6 +47,7 @@ export function Authenticate(props) {
         />
     );
 }
+
 
 //== Sub Components ============================================================
 
@@ -69,17 +57,39 @@ export function Authenticate(props) {
     renders when the user IS NOT logged in.
 */
 export function ViewAuth(props) {
+    //
+    const response = useQuery(QUERY_authGet, {
+        fetchPolicy: 'no-cache',
+        // Use useEffect instead of onCompleted, due to bug:
+        // https://github.com/apollographql/react-apollo/issues/2177
+    });
+    //
+    useEffect(function () {
+        if(!response.data || !response.data.authGet) { return;}
+        props.onLogin({
+            userData: response.data.authGet,
+            onLogout: function () {
+                logout().then(function () {
+                    props.onLogout();
+                });
+            },
+        })
+    }, [response.data, props])
+    // Show loading screen until authentication check completes
+    if(response.loading) {
+        return (<Loading />);
+    }
     // Render JSX
     return (
         <routing.Switch>
-            <routing.Route exact path="/auth/login">
-                <FormLogin login={props.onLogin} />
+            <routing.Route exact path="/login">
+                <FormLogin login={response.refetch} />
             </routing.Route>
-            <routing.Route exact path="/auth/register">
-                <FormRegister login={props.onLogin} />
+            <routing.Route exact path="/register">
+                <FormRegister login={response.refetch} />
             </routing.Route>
-            <routing.Route path="/">
-                <routing.Redirect to="/auth/login" />
+            <routing.Route exact path="*">
+                <FormLogin login={response.refetch} />
             </routing.Route>
         </routing.Switch>
     );
@@ -123,7 +133,7 @@ function FormRegister(props) {
                     <button className="button" type="submit" children="Submit" />
                     <routing.Link
                         className="button secondary"
-                        to="/auth/login"
+                        to="/login"
                         children="Log in"
                     />
                 </div>
@@ -164,7 +174,7 @@ function FormLogin(props) {
                     <button className="button" type="submit" children="Submit" />
                     <routing.Link
                         className="button secondary"
-                        to="/auth/register"
+                        to="/register"
                         children="Register"
                     />
                 </div>

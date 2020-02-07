@@ -11,7 +11,7 @@ import {
 } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
 import * as routing from 'react-router-dom';
-import { authenticationContext } from '../../authentication/index.js';
+import authenticationContext from '../../authentication/index.js';
 import { ButtonFollowToggle } from '../../components/button.js';
 import { URL_USER_PROFILE } from '../../constants.js';
 
@@ -78,7 +78,7 @@ function FollowDetail(props) {
     //
     const user = props.user;
     //
-    const authData = useContext(authenticationContext);
+    const authData = useContext(authenticationContext).userData;
     const [following, setFollowing] = useState(user.followers.following);
     const history = routing.useHistory();
     const userUrl = `${URL_USER_PROFILE}/${user.userId}`;

@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
 import * as routing from 'react-router-dom';
-import { authenticationContext } from '../authentication/index.js';
+import authenticationContext from '../authentication/index.js';
 import {
     ButtonFollowToggle,
     ButtonProfileEdit,
@@ -16,7 +16,7 @@ import './user_info.css';
 //-- Main Component ------------------------------
 export default function UserInfo(props) {
     // NOTE: Need default portraitUrl
-    const authData = useContext(authenticationContext);
+    const authData = useContext(authenticationContext).userData;
     // Setup state hooks
     const [follow, followSet] = useState({
         countFollowers: props.userData.followers.countFollowers,

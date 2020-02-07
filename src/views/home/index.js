@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { authenticationContext } from '../../authentication/index.js';
+import authenticationContext from '../../authentication/index.js';
 import { QUERY_feedGet } from '../../server_api/graphql_queries.js';
 import Composer from '../../components/composer.js';
 import Feed from '../../components/feed.js';
@@ -13,9 +13,9 @@ import './index.css';
 import Loading from '../../components/loading.js';
 
 //------------------------------------------------
-export default function ViewHome(props) {
+export default function ViewHome() {
     // Setup state hooks
-    const userData = useContext(authenticationContext);
+    const userData = useContext(authenticationContext).userData;
     const {loading, error, data} = useQuery(QUERY_feedGet, {variables: {
         userId: userData.userId,
     }});
@@ -29,7 +29,7 @@ export default function ViewHome(props) {
     //
     return (
         <React.Fragment>
-            <Composer />
+            <Composer user={userData} />
             <Feed data={data.feedGet} />
         </React.Fragment>
     );

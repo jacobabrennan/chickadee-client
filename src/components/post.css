@@ -47,3 +47,16 @@ a.post_author:hover, a.post_author:focus {
     word-break: break-all;
     white-space: pre-wrap;
 }
+.post_actions {
+    padding-right: calc(
+        var(--spacing-structure) + 64px
+    );
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: calc(var(--spacing-structure)*2);
+}
+.post_actions > img {
+    width: 24px;
+    height: 24px;
+}
