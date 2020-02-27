@@ -4,7 +4,12 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import * as routing from 'react-router-dom';
+import {
+    useParams,
+    useRouteMatch,
+    Switch,
+    Route,
+} from 'react-router-dom';
 import UserActivity from './activity.js';
 import {
     UserFollowers,
@@ -12,25 +17,24 @@ import {
 } from './followers.js';
 import './index.css';
 
-//-- Project Constants ---------------------------
 //------------------------------------------------
 export default function ViewUser() {
     // NOTE: Handle case where user doesn't exist (redirect via history)
     //
-    const userId = routing.useParams().userId;
-    const route = routing.useRouteMatch();
+    const userId = useParams().userId;
+    const route = useRouteMatch();
     // Render JSX
     return (
-        <routing.Switch>
-            <routing.Route exact path={route.url}>
+        <Switch>
+            <Route exact path={route.url}>
                 <UserActivity userId={userId} />
-            </routing.Route>
-            <routing.Route exact path={`${route.path}/followers`}>
+            </Route>
+            <Route exact path={`${route.path}/followers`}>
                 <UserFollowers userId={userId} />
-            </routing.Route>
-            <routing.Route exact path={`${route.path}/follows`}>
+            </Route>
+            <Route exact path={`${route.path}/follows`}>
                 <UserFollows userId={userId} />
-            </routing.Route>
-        </routing.Switch>
+            </Route>
+        </Switch>
     );
 }

@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import * as routing from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { urlUserProfile } from '../../utilities/url_handling.js';
 import './user_name.css';
 
@@ -20,7 +20,7 @@ export default function UserName({user, noLink}) {
         return (<div className="username" children={children} />);
     }
     return (
-        <routing.Link
+        <Link
             className="username"
             to={urlUserProfile(user.userId)}
             onClick={eventClick => eventClick.stopPropagation()}

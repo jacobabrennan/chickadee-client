@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import * as routing from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Loading from '../../components/loading/index.js';
 import Post from '../../components/post/index.js';
 import Composer from '../../components/composer/index.js';
@@ -15,7 +15,7 @@ import './index.css';
 //------------------------------------------------
 export default function ViewPost() {
     // NOTE: Handle case where post doesn't exist (redirect via history)
-    const postId = routing.useParams().postId;
+    const postId = useParams().postId;
     const postResponse = useQuery(QUERY_postGet, {variables: {
         postId: postId,
     }});

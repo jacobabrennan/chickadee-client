@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
-import * as routing from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import authenticationContext from '../../authentication/index.js';
 import {
     urlUserFollowing,
@@ -71,12 +71,12 @@ export default function UserInfo(props) {
                 <div className="userinfo_follow">
                     {followButton}
                     {followIndicator}
-                    <routing.Link
+                    <Link
                         className="userinfo_count"
                         to={urlUserFollowing(userId)}
                         children={`${follow.countFollowing} Following`}
                     />
-                    <routing.Link
+                    <Link
                         className="userinfo_count"
                         to={urlUserFollowers(userId)}
                         children={`${follow.countFollowers} Followers`}

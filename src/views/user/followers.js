@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import * as routing from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
     QUERY_followersGet,
     QUERY_followsGet,
@@ -82,7 +82,7 @@ function FollowDetail(props) {
     //
     const authData = useContext(authenticationContext).userData;
     const [following, setFollowing] = useState(user.followers.following);
-    const history = routing.useHistory();
+    const history = useHistory();
     // Interaction Handlers
     function clickHandler() {
         history.push(urlUserProfile(user.userId));

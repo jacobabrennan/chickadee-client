@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import * as routing from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
     URL_POST,
     URL_IMAGE_POSTREPLY,
@@ -16,7 +16,7 @@ import './post.css';
 //------------------------------------------------
 export default function Post(props) {
     // NOTE: need default portraitUrl
-    const routerHistory = routing.useHistory();
+    const routerHistory = useHistory();
     const post = props.post;
     const userContext = props.userContext;
     const linkPost = `${URL_POST}/${post.postId}`;

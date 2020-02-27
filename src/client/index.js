@@ -4,7 +4,11 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import * as routing from 'react-router-dom';
+import {
+    Switch,
+    Route,
+    Redirect,
+} from 'react-router-dom';
 import { Authenticate } from '../authentication/index.js';
 import ViewUser from '../views/user/index.js';
 import ViewPost from '../views/post/index.js';
@@ -20,26 +24,26 @@ export default function Client() {
         <Authenticate>
             <div className="client">
                 <HeaderBar />
-                <routing.Switch>
-                    <routing.Route path="/auth">
-                        <routing.Redirect to="/" />
-                    </routing.Route>
-                    <routing.Route path="/user/:userId">
+                <Switch>
+                    <Route path="/auth">
+                        <Redirect to="/" />
+                    </Route>
+                    <Route path="/user/:userId">
                         <ViewUser />
-                    </routing.Route>
-                    <routing.Route path="/post/:postId">
+                    </Route>
+                    <Route path="/post/:postId">
                         <ViewPost />
-                    </routing.Route>
-                    <routing.Route exact path="/settings">
+                    </Route>
+                    <Route exact path="/settings">
                         <ViewSettings />
-                    </routing.Route>
-                    <routing.Route exact path="/">
+                    </Route>
+                    <Route exact path="/">
                         <ViewHome />
-                    </routing.Route>
-                    <routing.Route>
+                    </Route>
+                    <Route>
                         <ViewNoRoute />
-                    </routing.Route>
-                </routing.Switch>
+                    </Route>
+                </Switch>
             </div>
         </Authenticate>
     );

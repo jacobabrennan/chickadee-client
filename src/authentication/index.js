@@ -4,7 +4,13 @@
 
 //-- Dependencies --------------------------------
 import React, { useState } from 'react';
-import * as routing from 'react-router-dom';
+import {
+    useHistory,
+    Switch,
+    Route,
+    Redirect,
+    Link,
+} from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { register, login, logout } from './api.js';
 import { QUERY_authGet } from '../server_api/graphql_queries.js';
@@ -24,7 +30,7 @@ export default authenticationContext;
 //-- Authentication Wraper -----------------------
 export function Authenticate(props) {
     const [authData, setAuthData] = useState(AUTH_UNKNOWN);
-    const history = routing.useHistory();
+    const history = useHistory();
     const response = useQuery(QUERY_authGet, {
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'no-cache',
@@ -71,17 +77,17 @@ export function Authenticate(props) {
 export function ViewAuth(props) {
     // Render JSX
     return (
-        <routing.Switch>
-            <routing.Route exact path="/auth/login">
+        <Switch>
+            <Route exact path="/auth/login">
                 <FormLogin login={props.onLogin} />
-            </routing.Route>
-            <routing.Route exact path="/auth/register">
+            </Route>
+            <Route exact path="/auth/register">
                 <FormRegister login={props.onLogin} />
-            </routing.Route>
-            <routing.Route path="/">
-                <routing.Redirect to="/auth/login" />
-            </routing.Route>
-        </routing.Switch>
+            </Route>
+            <Route path="/">
+                <Redirect to="/auth/login" />
+            </Route>
+        </Switch>
     );
 }
 
@@ -121,7 +127,7 @@ function FormRegister(props) {
                 />
                 <div className="auth_actions">
                     <button className="button" type="submit" children="Submit" />
-                    <routing.Link
+                    <Link
                         className="button secondary"
                         to="/auth/login"
                         children="Log in"
@@ -162,7 +168,7 @@ function FormLogin(props) {
                 />
                 <div className="auth_actions">
                     <button className="button" type="submit" children="Submit" />
-                    <routing.Link
+                    <Link
                         className="button secondary"
                         to="/auth/register"
                         children="Register"

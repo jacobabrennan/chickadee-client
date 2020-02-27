@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React, { useEffect } from 'react';
-import * as routing from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import {
     MUTATION_followLinkAdd,
@@ -78,7 +78,7 @@ export function ButtonUnfollow(props) {
 //------------------------------------------------
 export function ButtonProfileEdit() {
     return (
-        <routing.Link
+        <Link
             className="button"
             to="/settings"
             children="Edit"
