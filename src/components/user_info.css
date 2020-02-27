@@ -7,11 +7,6 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.userinfo_portrait {
-    border-radius: var(--spacing-structure);
-    width: 128px;
-    height: 128px;
-}
 .userinfo_edit {
     font-size: 2rem;
     height: 4rem;
@@ -54,30 +49,10 @@ a.userinfo_count {
 a.userinfo_count:hover, a.userinfo_follow:focus {
     text-decoration: underline;
 }
-.userinfo_name {
-    font-size: x-large;
-    margin-top: var(--spacing-structure);
-}
-.userinfo_chosen {
-    font-weight: bold;
-}
-.userinfo_id {
-    margin-left: 1ex;
-    color: var(--color-subdued);
-}
-.userinfo_id:before {
-    content: '@';
-}
 .userinfo_description {
     margin-top: var(--spacing-structure);
 }
-
-
-/*
-userinfo_glance
-    userinfo_portrait
-userinfo_name
-    userinfo_chosen
-    userinfo_id
-userinfo_description
-*/
+.userinfo .username {
+    font-size: x-large;
+    margin-top: var(--spacing-structure);
+}

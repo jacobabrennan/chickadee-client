@@ -7,9 +7,7 @@
     flex-direction: row;
     background: var(--color-field);
 }
-.composer_portrait {
-    width: 64px;
-    height: 64px;
+.composer .portrait {
     margin-right: var(--spacing-structure);
 }
 .composer_input {

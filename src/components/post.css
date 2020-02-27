@@ -8,37 +8,13 @@
     flex-direction: row;
     cursor: pointer;
 }
-.post_portrait {
-    border-radius: var(--radius-structure);
-    width: 64px;
-    height: 64px;
+.post .portrait {
     margin-right: var(--spacing-structure);
 }
 .post_content {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-}
-.post_author {
-    font-size: large;
-    align-self: flex-start;
-}
-a.post_author {
-    color: var(--color-copy);
-    font-weight: bold;
-}
-a.post_author:hover, a.post_author:focus {
-    text-decoration: underline;
-}
-.post_author_name {
-    font-weight: bold;
-}
-.post_author_id {
-    margin-left: 1ex;
-    color: var(--color-subdued);
-}
-.post_author_id::before {
-    content: '@';
 }
 .post_body {
     margin-top: var(--spacing-structure);

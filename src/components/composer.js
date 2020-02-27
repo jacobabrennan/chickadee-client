@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { MUTATION_postCreate } from '../server_api/graphql_queries.js';
 import './composer.css';
+import Portrait from './portrait.js';
 
 //-- React Component -----------------------------
 export default function Composer(props) {
@@ -28,11 +29,7 @@ export default function Composer(props) {
     // JSX Rendering
     return (
         <form className="composer" onSubmit={handleSubmit}>
-            <img
-                className="composer_portrait"
-                src={props.user.portraitUrl}
-                alt={`Portrait of user @${props.user.userId}`}
-            />
+            <Portrait user={props.user} />
             <fieldset disabled={loading}>
                 <textarea
                     className="composer_input"

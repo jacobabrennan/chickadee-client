@@ -21,7 +21,8 @@ export default function Feed(props) {
                         key={post.postId}
                         post={post}
                         userContext={userHash[post.authorId]}
-                    />);
+                    />
+                );
             })}
         </div>
     );

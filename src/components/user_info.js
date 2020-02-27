@@ -10,7 +10,9 @@ import {
     ButtonFollowToggle,
     ButtonProfileEdit,
 } from './button.js';
-import { URL_USER_PROFILE } from '../constants.js';
+import Portrait from './portrait.js';
+import UserName from './user_name.js';
+import { urlUserFollowing, urlUserFollowers } from '../utilities.js';
 import './user_info.css';
 
 //-- Main Component ------------------------------
@@ -40,7 +42,6 @@ export default function UserInfo(props) {
     const userId = props.userData.userId;
     const name = props.userData.name;
     const description = props.userData.description;
-    const portraitUrl = props.userData.portraitUrl;
     let followButton = '';
     if(authData.userId === userId) {
         followButton = (<ButtonProfileEdit />);
@@ -63,33 +64,23 @@ export default function UserInfo(props) {
     return (
         <div className="userinfo">
             <div className="userinfo_glance">
-                <img
-                    className="userinfo_portrait"
-                    src={portraitUrl}
-                    alt={`Portrait of user @${userId}`}
-                />
+                <Portrait user={props.userData} large />
                 <div className="userinfo_follow">
                     {followButton}
                     {followIndicator}
                     <routing.Link
                         className="userinfo_count"
-                        to={`${URL_USER_PROFILE}/${userId}/follows`}
+                        to={urlUserFollowing(userId)}
                         children={`${follow.countFollowing} Following`}
                     />
                     <routing.Link
                         className="userinfo_count"
-                        to={`${URL_USER_PROFILE}/${userId}/followers`}
+                        to={urlUserFollowers(userId)}
                         children={`${follow.countFollowers} Followers`}
                     />
                 </div>
             </div>
-            <div
-                className="userinfo_name"
-                to={`${URL_USER_PROFILE}/${userId}`}
-            >
-                <span className="userinfo_chosen" children={name || userId} />
-                <span className="userinfo_id" children={userId} />
-            </div>
+            <UserName noLink user={props.userData} />
             <div className="userinfo_description" children={description} />
         </div>
     );

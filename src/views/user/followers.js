@@ -13,7 +13,9 @@ import Loading from '../../components/loading.js';
 import * as routing from 'react-router-dom';
 import authenticationContext from '../../authentication/index.js';
 import { ButtonFollowToggle } from '../../components/button.js';
-import { URL_USER_PROFILE } from '../../constants.js';
+import Portrait from '../../components/portrait.js';
+import UserName from '../../components/user_name.js';
+import { urlUserProfile } from '../../utilities.js';
 
 //------------------------------------------------
 export function UserFollowers(props) {
@@ -81,13 +83,9 @@ function FollowDetail(props) {
     const authData = useContext(authenticationContext).userData;
     const [following, setFollowing] = useState(user.followers.following);
     const history = routing.useHistory();
-    const userUrl = `${URL_USER_PROFILE}/${user.userId}`;
     // Interaction Handlers
     function clickHandler() {
-        history.push(userUrl);
-    }
-    function clickHandlerLink(eventClick) {
-        eventClick.stopPropagation();
+        history.push(urlUserProfile(user.userId));
     }
     function handleFollowClick(followDelta) {
         if(followDelta ===  1){ setFollowing(true );}
@@ -112,28 +110,11 @@ function FollowDetail(props) {
     }
     return (
         <div className="userdetail" onClick={clickHandler}>
-            <img
-                className="userdetail_portrait"
-                src={user.portraitUrl}
-                alt={`Profile portrait for user @${user.userId}`}
-            />
+            <Portrait user={user} />
             <div className="userdetail_content">
                 <div className="userdetail_splitter">
                     <div className="userdetail_stacker">
-                        <routing.Link
-                            className="userdetail_name"
-                            to={`${URL_USER_PROFILE}/${user.userId}`}
-                            onClick={clickHandlerLink}
-                        >
-                            <span
-                                className="userdetail_chosen"
-                                children={user.name || user.userId}
-                            />
-                            <span
-                                className="userdetail_id"
-                                children={user.userId}
-                            />
-                        </routing.Link>
+                        <UserName user={user} />
                         {followIndicator}
                     </div>
                     {followButton}

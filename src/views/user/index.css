@@ -1,7 +1,4 @@
 
-/*----------------------------------------------*/
-
-
 /*-- User Detail : Followers & Following -------*/
 .userdetail{
     background: var(--color-field);
@@ -11,10 +8,7 @@
     flex-direction: row;
     cursor: pointer;
 }
-.userdetail_portrait {
-    border-radius: var(--radius-structure);
-    width: 64px;
-    height: 64px;
+.userdetail .portrait {
     margin-right: var(--spacing-structure);
 }
 .userdetail_content {
@@ -34,27 +28,6 @@
     line-height: 2.5rem;
     border-radius: var(--radius-structure);
     align-self: flex-start;
-}
-.userdetail_name {
-    font-size: large;
-    align-self: flex-start;
-}
-a.userdetail_name {
-    color: var(--color-copy);
-    font-weight: bold;
-}
-a.userdetail_name:hover, a.userdetail_name:focus {
-    text-decoration: underline;
-}
-.userdetail_chosen {
-    font-weight: bold;
-}
-.userdetail_id {
-    margin-left: 1ex;
-    color: var(--color-subdued);
-}
-.userdetail_id::before {
-    content: '@';
 }
 .userdetail_description {
     margin-top: var(--spacing-structure);

@@ -1,0 +1,22 @@
+
+.username {
+    font-size: large;
+    align-self: flex-start;
+}
+a.username {
+    color: var(--color-copy);
+    font-weight: bold;
+}
+a.username:hover, a.username:focus {
+    text-decoration: underline;
+}
+.username_name {
+    font-weight: bold;
+}
+.username_id {
+    margin-left: 1ex;
+    color: var(--color-subdued);
+}
+.username_id::before {
+    content: '@';
+}

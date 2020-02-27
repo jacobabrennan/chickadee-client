@@ -3,79 +3,44 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import React, { useReducer, useEffect, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import authenticationContext from '../../authentication/index.js';
 import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading.js';
+import { urlUserProfile } from '../../utilities.js';
 import './index.css';
 
-//-- Project Constants ---------------------------
-const ACTION_CHANGE_NAME = 'change name';
-const ACTION_CHANGE_DESCRIPTION = 'change description';
-const ACTION_SETTINGS_RESPONSE = 'settings response';
-const ACTION_FILE_SELECT = 'portrait select';
-
-//-- Initial State -------------------------------
-const stateInitial = {
-    nameText: '',
-    descriptionText: '',
-    portrait: null,
-    portraitUrl: null,
-}
-
-//-- Action Reducer ------------------------------
-function reducer(state, action) {
-    let newState = Object.assign({}, state);
-    switch(action.type) {
-        case ACTION_SETTINGS_RESPONSE: {
-            newState.nameText = action.data.name || '';
-            newState.descriptionText = action.data.description || '';
-            newState.portraitUrl = action.data.portraitUrl || null;
-            break;
-        }
-        case ACTION_CHANGE_NAME: {
-            newState.nameText = action.newText;
-            break;
-        }
-        case ACTION_CHANGE_DESCRIPTION: {
-            newState.descriptionText = action.newText;
-            break;
-        }
-        case ACTION_FILE_SELECT: {
-            newState.portrait = action.dataURL;
-            break;
-        }
-        default: {}
-    }
-    return newState;
-}
-
 //------------------------------------------------
-export default function ViewSettings(props) {
+export default function ViewSettings() {
+    // NOTE: Disable submit during mutation
     const portraitDrawn = useRef();
-    // Setup hooks for state and database
     const userData = useContext(authenticationContext).userData;
-    const [state, dispatch] = useReducer(reducer, stateInitial);
-    const settingsResponse = useQuery(QUERY_userGet, {variables: {
-        userId: userData.userId,
-    }});
-    const [userUpdate, userUpdateResponse] = useMutation(MUTATION_userUpdate);
-    // Reset form on database response
-    useEffect(function () {
-        if(!settingsResponse.data){ return;}
-        dispatch({
-            type: ACTION_SETTINGS_RESPONSE,
-            data: settingsResponse.data.userGet,
-        })
-    }, [settingsResponse.data]);
-    useEffect(function () {
-        if(!userUpdateResponse.data){ return;}
-        dispatch({
-            type: ACTION_SETTINGS_RESPONSE,
-            data: userUpdateResponse.data.userUpdate,
-        })
-    }, [userUpdateResponse.data]);
+    const history = useHistory();
+    const [state, setState] = useState({
+        nameText: '',
+        descriptionText: '',
+        portrait: null,
+        portraitUrl: null,
+    });
+    const settingsResponse = useQuery(QUERY_userGet, {
+        variables: {userId: userData.userId},
+        onCompleted: function (data) {
+            setState({
+                nameText: data.userGet.name,
+                descriptionText: data.userGet.description,
+                portrait: null,
+                portraitUrl: data.userGet.portraitUrl,
+            });
+        },
+    });
+    const [userUpdate] = useMutation(MUTATION_userUpdate, {
+        onCompleted: function () {
+            // NOTE: check for errors
+            history.push(urlUserProfile(userData.userId));
+        },
+    });
     // Interaction Handlers
     async function handleSubmit(eventSubmit) {
         eventSubmit.preventDefault();
@@ -86,37 +51,21 @@ export default function ViewSettings(props) {
         }});
     }
     function handleChangeName(eventChange) {
-        dispatch({
-            type: ACTION_CHANGE_NAME,
-            newText: eventChange.currentTarget.value,
-        });
+        const newState = Object.assign({}, state);
+        newState.nameText = eventChange.currentTarget.value;
+        setState(newState);
     }
     function handleChangeDescription(eventChange) {
-        dispatch({
-            type: ACTION_CHANGE_DESCRIPTION,
-            newText: eventChange.currentTarget.value,
-        });
+        const newState = Object.assign({}, state);
+        newState.descriptionText = eventChange.currentTarget.value;
+        setState(newState);
     }
     async function handleSelectPortrait(eventChange) {
+        const newState = Object.assign({}, state);
         const fileSelected = eventChange.currentTarget.files.item(0);
-        const fileBitmap = await createImageBitmap(fileSelected);
         const canvas = portraitDrawn.current;
-        const context = canvas.getContext('2d');
-        //
-        const aspectRatioImage = fileBitmap.width / fileBitmap.height;
-        let drawWidth = 128;
-        let drawHeight = 128;
-        if(aspectRatioImage >= 1) {
-            drawWidth = drawHeight * aspectRatioImage;
-        } else {
-            drawHeight = drawWidth / aspectRatioImage;
-        }
-        //
-        context.drawImage(fileBitmap, 0, 0, drawWidth, drawHeight);
-        dispatch({
-            type: ACTION_FILE_SELECT,
-            dataURL: canvas.toDataURL('image/png', 1.0),
-        });
+        newState.portrait = await portraitGetDataUrl(fileSelected, canvas);
+        setState(newState);
     }
     //
     if(settingsResponse.loading) {
@@ -126,6 +75,18 @@ export default function ViewSettings(props) {
         return 'Error'
     }
     // Render JSX
+    let portraitPreview = '';
+    if(!state.portrait && state.portraitUrl) {
+        portraitPreview = (
+            <img
+                src={state.portraitUrl}
+                width="128"
+                height="128"
+                className="profile_editor_portrait"
+                alt="Profile Portrait"
+            />
+        );
+    }
     return (
         <form className="profile_editor" onSubmit={handleSubmit}>
             <div className="profile_editor_top">
@@ -135,12 +96,9 @@ export default function ViewSettings(props) {
                         src="camera_add.svg"
                         alt="Select file for profile portrait"
                     />
-                    {state.portraitUrl? 
-                        <img src={state.portraitUrl} width="128" height="128" className="profile_editor_portrait" alt="Profile Portrait" />
-                        : ''
-                    }
+                    {portraitPreview}
                     <canvas ref={portraitDrawn} width="128" height="128" style={{
-                        display: (state.portraitUrl? 'none' : 'block')
+                        display: (state.portrait? 'block' : 'none')
                     }}/>
                     <input type="file" onChange={handleSelectPortrait} />
                 </label>
@@ -167,4 +125,22 @@ export default function ViewSettings(props) {
             </label>
         </form>
     );
+}
+
+//------------------------------------------------
+async function portraitGetDataUrl(fileSelected, canvas) {
+    const fileBitmap = await createImageBitmap(fileSelected);
+    const context = canvas.getContext('2d');
+    //
+    const aspectRatioImage = fileBitmap.width / fileBitmap.height;
+    let drawWidth = 128;
+    let drawHeight = 128;
+    if(aspectRatioImage >= 1) {
+        drawWidth = drawHeight * aspectRatioImage;
+    } else {
+        drawHeight = drawWidth / aspectRatioImage;
+    }
+    //
+    context.drawImage(fileBitmap, 0, 0, drawWidth, drawHeight);
+    return canvas.toDataURL('image/png', 1.0);
 }

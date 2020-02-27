@@ -6,10 +6,11 @@
 import React from 'react';
 import * as routing from 'react-router-dom';
 import {
-    URL_USER_PROFILE,
     URL_POST,
     URL_IMAGE_POSTREPLY,
-} from '../constants.js'
+} from '../constants.js';
+import Portrait from './portrait.js';
+import UserName from './user_name.js';
 import './post.css';
 
 //------------------------------------------------
@@ -18,36 +19,15 @@ export default function Post(props) {
     const routerHistory = routing.useHistory();
     const post = props.post;
     const userContext = props.userContext;
-    const linkAuthor = `${URL_USER_PROFILE}/${post.authorId}`;
     const linkPost = `${URL_POST}/${post.postId}`;
     function clickHandler() {
         routerHistory.push(linkPost);
     }
-    function clickHandlerLink(eventClick) {
-        eventClick.stopPropagation();
-    }
     return (
         <div className="post" onClick={clickHandler}>
-            <img
-                className="post_portrait"
-                src={userContext.portraitUrl}
-                alt={`Portrait of user @${userContext.userId}`}
-            />
+            <Portrait user={userContext} />
             <div className="post_content">
-                <routing.Link
-                    className="post_author"
-                    to={linkAuthor}
-                    onClick={clickHandlerLink}
-                >
-                    <span
-                        className="post_author_name"
-                        children={userContext.name || userContext.userId}
-                    />
-                    <span
-                        className="post_author_id"
-                        children={userContext.userId}
-                    />
-                </routing.Link>
+                <UserName user={userContext} />
                 <div className="post_body">
                     {post.text}
                 </div>
