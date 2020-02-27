@@ -1,6 +1,11 @@
 
 
-//==============================================================================
+/*== Constants =================================================================
+
+This file centralizes the various configurable values used thoughout the
+project. As the project is factored, more values will end up here.
+
+*/
 
 //-- Project Constants ---------------------------
 export const URL_GRAPHQL = '/data';
