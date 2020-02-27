@@ -8,7 +8,7 @@ import * as routing from 'react-router-dom';
 import {
     URL_POST,
     URL_IMAGE_POSTREPLY,
-} from '../../constants.js';
+} from '../../utilities/constants.js';
 import Portrait from '../portrait/index.js';
 import UserName from '../user_name/index.js';
 import './post.css';

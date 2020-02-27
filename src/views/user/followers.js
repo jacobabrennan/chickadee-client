@@ -11,7 +11,7 @@ import {
     QUERY_followsGet,
 } from '../../server_api/graphql_queries.js';
 import authenticationContext from '../../authentication/index.js';
-import { urlUserProfile } from '../../utilities.js';
+import { urlUserProfile } from '../../utilities/url_handling.js';
 import { ButtonFollowToggle } from '../../components/button/index.js';
 import Loading from '../../components/loading/index.js';
 import Portrait from '../../components/portrait/index.js';

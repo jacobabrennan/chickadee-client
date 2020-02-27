@@ -6,7 +6,10 @@
 import React, { useState, useContext } from 'react';
 import * as routing from 'react-router-dom';
 import authenticationContext from '../../authentication/index.js';
-import { urlUserFollowing, urlUserFollowers } from '../../utilities.js';
+import {
+    urlUserFollowing,
+    urlUserFollowers,
+} from '../../utilities/url_handling.js';
 import {
     ButtonFollowToggle,
     ButtonProfileEdit,

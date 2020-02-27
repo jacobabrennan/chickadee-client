@@ -6,7 +6,7 @@
 import React, { useContext } from 'react';
 import * as routing from 'react-router-dom';
 import authenticationContext from '../../authentication/index.js';
-import { urlUserProfile } from '../../utilities.js';
+import { urlUserProfile } from '../../utilities/url_handling.js';
 import './header_bar.css';
 
 

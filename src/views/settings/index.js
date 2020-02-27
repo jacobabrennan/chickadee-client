@@ -7,9 +7,12 @@ import React, { useState, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import authenticationContext from '../../authentication/index.js';
-import { QUERY_userGet, MUTATION_userUpdate } from '../../server_api/graphql_queries.js';
+import {
+    QUERY_userGet,
+    MUTATION_userUpdate,
+} from '../../server_api/graphql_queries.js';
 import Loading from '../../components/loading/index.js';
-import { urlUserProfile } from '../../utilities.js';
+import { urlUserProfile } from '../../utilities/url_handling.js';
 import './index.css';
 
 //------------------------------------------------
