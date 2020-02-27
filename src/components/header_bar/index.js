@@ -1,6 +1,15 @@
 
 
-//== Header Bar Component ======================================================
+/*== Header Bar Component ======================================================
+
+Exports a single React Component, HeaderBar:
+
+- Represents the horizontal bar at the top of client, containing branding,
+authentication utilities, and global links.
+
+- Does not use any props.
+
+*/
 
 //-- Dependencies --------------------------------
 import React, { useContext } from 'react';
@@ -9,10 +18,11 @@ import authenticationContext from '../../authentication/index.js';
 import { urlUserProfile } from '../../utilities/url_handling.js';
 import './header_bar.css';
 
-
 //-- Header Bar subcomponent ---------------------
 export default function HeaderBar() {
+    // Retrieve authentication data
     const authContext = useContext(authenticationContext);
+    // Render JSX: Currently renders home & profile links, and a logout button.
     return (
         <header className="headerbar">
             <Link
