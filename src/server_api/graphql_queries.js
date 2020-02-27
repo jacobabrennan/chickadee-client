@@ -1,6 +1,11 @@
 
 
-//== GraphQL Queries, Mutations, and Subscriptions =============================
+/*== GraphQL Queries, Mutations, and Subscriptions =============================
+
+This module exports the various GraphQL queries, mutations, and subscriptions
+used throughout the project.
+
+*/
 
 //-- Dependencies --------------------------------
 import { gql } from 'apollo-boost';

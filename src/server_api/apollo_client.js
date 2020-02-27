@@ -1,6 +1,11 @@
 
 
-//== Server API ================================================================
+/*== Server API ================================================================
+
+This modules configures & exports an Apollo client to be used by ApolloProvider.
+Together, they allow for easy use of GraphQL.
+
+*/
 
 //-- Dependencies --------------------------------
 import ApolloClient from 'apollo-boost';
