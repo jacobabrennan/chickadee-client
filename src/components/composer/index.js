@@ -8,7 +8,8 @@ This module exports one component, the Composer:
 media (not yet implemented), and then submit the post to the server.
 
 - Accepts the following props:
-    user(object): A user context representing the local user.
+    user(object): A user context representing the local user (as defined in
+        GraphQL schema).
 
 */
 
