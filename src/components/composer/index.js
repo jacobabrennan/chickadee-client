@@ -1,6 +1,16 @@
 
 
-//== New Post Composer =========================================================
+/*== New Post Composer =========================================================
+
+This module exports one component, the Composer:
+
+- Renders a post composition area. The user is able to write a post and attach
+media (not yet implemented), and then submit the post to the server.
+
+- Accepts the following props:
+    user(object): A user context representing the local user.
+
+*/
 
 //-- Dependencies --------------------------------
 import React, { useEffect, useState } from 'react';
@@ -13,7 +23,9 @@ import Portrait from '../portrait/index.js';
 export default function Composer(props) {
     // State Management
     const [state, setState] = useState({bodyText: ''});
+    // Prepare post creation GraphQL mutation
     const [postCreate, {loading, /*error,*/ data}] = useMutation(MUTATION_postCreate);
+    // Clear the composer after a successful submission to the server
     useEffect(function () {
         setState({bodyText: ''});
     }, [data])
