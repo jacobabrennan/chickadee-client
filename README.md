@@ -10,4 +10,10 @@ Chickadee is in the early stages of development. The model is still being design
 
 ## Setup
 
-A development server can be run by cloning the repo locally, and then running the standard command `yarn start`. After a moment the home page should open automatically in the browser. In order to login and test the functionality of the client, you will also need to be running the [Chickadee back end](https://github.com/jacobabrennan/chickadee).
+A development server can be run by cloning the repo locally, installing dependencies, and then running the development server:
+```
+git clone git@github.com:jacobabrennan/chickadee-client.git
+yarn install
+yarn start
+```
+After a pause the home page should open automatically in the browser. In order to login and test the functionality of the client, you will also need to be running the [Chickadee back end](https://github.com/jacobabrennan/chickadee).
