@@ -4,18 +4,16 @@
 
 This module exports four React components:
 
-ButtonLink:
-    - Renders a react-router-dom Link as a styled button.
-    - Accepts the following Props:
+ButtonLink renders a react-router-dom Link as a styled button.
+    It accepts the following Props:
         to(string): A URL. Same as defined on the Link component.
         children: Same as defined on the Link component.
 
-ButtonFollowToggle:
-    - Renders as either ButtonFollow or ButtonUnfollow, determined by the value of
-    the 'following' prop. Used wherever a user profile is displayed, to allow
-    the local user to follow or unfollow the remote user. Clicking the button
-    will fire a GraphQL mutation.
-    - Accepts the following props:
+ButtonFollowToggle renders either a ButtonFollow or a ButtonUnfollow, determined
+    by the value of the 'following' prop. Used wherever a user profile is
+    displayed, to allow the local user to follow or unfollow the remote user.
+    Clicking the button will fire a GraphQL mutation.
+    It accepts the following props:
         following(boolean): Is the local user current following this user.
         userId(string): The id of the remote user.
         onClick(function): A callback to inform the parent component that the
@@ -23,20 +21,18 @@ ButtonFollowToggle:
             argument, a number. The number will be 1 for a follow action, and -1
             for an unfollow action.
 
-ButtonFollow:
-    - Renders a button with the text "Follow", which when clicked fires a GraphQL
-    follow mutation.
-    - Accepts the following Props:
+ButtonFollow renders a button with the text "Follow", which when clicked fires a
+    GraphQL follow mutation.
+    It accepts the following props:
         userId(string): The id of the remote user.
         onClick(function): A callback function which will be invoked after
             receiving a reply from the server in response to the follow
             mutation.
 
-ButtonUnfollow:
-    - Renders a button with the text "Following", which when clicked fires a
-    GraphQL unfollow mutation. When the user selects or hovers over the link, it
-    displays the text "Unfollow".
-    - Accepts the following Props:
+ButtonUnfollow renders a button with the text "Following", which when clicked
+    fires a GraphQL unfollow mutation. When the user selects or hovers over the
+    link, it displays the text "Unfollow".
+    It accepts the following props:
         userId(string): The id of the remote user.
         onClick(function): A callback function which will be invoked after
             receiving a reply from the server in response to the unfollow

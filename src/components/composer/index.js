@@ -2,13 +2,13 @@
 
 /*== New Post Composer =========================================================
 
-This module exports one component, the Composer:
+This module exports one component, the Composer. The component displays a post
+composition area where the user is able to write and submit a post. In the
+future, the user will also be able to attach other media, such as images, links,
+audio, and larger bodies of text.
 
-- Renders a post composition area. The user is able to write a post and attach
-media (not yet implemented), and then submit the post to the server.
-
-- Accepts the following props:
-    user(object): A user context representing the local user (as defined in
+Accepts the following props:
+    user(object): A user object representing the local user (as defined in
         GraphQL schema).
 
 */

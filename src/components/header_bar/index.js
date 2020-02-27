@@ -2,10 +2,9 @@
 
 /*== Header Bar Component ======================================================
 
-Exports a single React Component, HeaderBar:
-
-- Represents the horizontal bar at the top of client, containing branding,
-authentication utilities, and global links.
+Exports a single React Component, HeaderBar. It displays a horizontal bar at the
+top of client, containing branding, authentication actions (currently, log out),
+and global links (currently, a link to the user's profile).
 
 - Does not use any props.
 

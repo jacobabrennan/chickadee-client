@@ -2,11 +2,10 @@
 
 /*== Post Feed =================================================================
 
-Exports one component, Feed:
+Exports one component, Feed, displayed as a list of posts with associated user
+contexts.
 
-- Represents a list of posts with associated user contexts.
-
-- Accepts on prop, data(object), with the following structure:
+Accepts on prop, data(object), with the following structure:
     posts(array): An array of post objects (as defined in GraphQL schema).
     userContexts(array): An array of user contexts (as defined in GraphQL
         schema).
