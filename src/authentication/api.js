@@ -3,21 +3,14 @@
 //== Authentication API ========================================================
 
 //-- Dependencies --------------------------------
+import {
+    URL_AUTH_LOGIN,
+    URL_AUTH_LOGOUT,
+    URL_AUTH_REGISTER,
+} from "../utilities/constants";
 
-//-- User Id (am I logged in?) -------------------
-export async function getId() {
-    //
-    let response = await fetch(`/auth/userid`);
-        // Note: network errors propagated (not caught)
-    //
-    if(!response.ok) { return null;}
-    const userData = await response.json();
-    if(userData.error) {
-        alert(userData.error);
-        return null;
-    }
-    return userData.userId;
-}
+
+//== API Functions =============================================================
 
 //-- Registration --------------------------------
 export async function register(userName, password, email) {
@@ -39,7 +32,7 @@ export async function register(userName, password, email) {
     //
     let response;
     try{
-        response = await fetch(`/auth/register`, requestOptions);
+        response = await fetch(URL_AUTH_REGISTER, requestOptions);
         // Note: network errors propagated (not caught)
     //
     } catch(error){ console.log(error); return;}
@@ -72,7 +65,7 @@ export async function login(userName, password) {
         body: postBody,
     };
     //
-    let response = await fetch(`/auth/login`, requestOptions);
+    let response = await fetch(URL_AUTH_LOGIN, requestOptions);
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}
@@ -92,7 +85,7 @@ export async function logout() {
         credentials: 'same-origin',
     };
     //
-    let response = await fetch(`/auth/logout`, requestOptions);
+    let response = await fetch(URL_AUTH_LOGOUT, requestOptions);
         // Note: network errors propagated (not caught)
     //
     if(!response.ok) { return null;}

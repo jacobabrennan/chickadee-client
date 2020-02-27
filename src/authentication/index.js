@@ -3,18 +3,30 @@
 //== Authentication Client and route handler ===================================
 
 //-- Dependencies --------------------------------
-import React, { useState } from 'react';
+// NPM Modules
+import React, {
+    useState,
+    createContext,
+} from 'react';
 import {
     useHistory,
     Switch,
     Route,
     Redirect,
-    Link,
 } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { register, login, logout } from './api.js';
+// Utilities
+import { logout } from './api.js';
 import { QUERY_authGet } from '../server_api/graphql_queries.js';
+import {
+    URL_AUTH_LOGIN,
+    URL_AUTH_REGISTER,
+} from '../utilities/constants.js';
+// React Components
 import Loading from '../components/loading/index.js';
+import ViewRegister from './view_registration.js';
+import ViewLogin from './view_login.js';
+// Styles
 import './index.css';
 
 //-- Project Constants ---------------------------
@@ -22,30 +34,33 @@ const AUTH_OUT = 'logged out';
 const AUTH_UNKNOWN = null;
 
 //-- Authentication Context ----------------------
-const authenticationContext = React.createContext({
+const authenticationContext = createContext({
     userData: null,
 });
 export default authenticationContext;
 
-//-- Authentication Wraper -----------------------
+//-- React Component -----------------------------
 export function Authenticate(props) {
+    // Setup auth data state
     const [authData, setAuthData] = useState(AUTH_UNKNOWN);
+    // Query server for authentication data
     const history = useHistory();
     const response = useQuery(QUERY_authGet, {
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'no-cache',
-        onCompleted: function (data) {
-            const userData = data.authGet;
-            if(!userData) {
+        onCompleted: function ({ authGet }) {
+            // Log out user if response is empty
+            if(!authGet) {
                 setAuthData(AUTH_OUT);
                 return;
             }
+            // Log in user and re-render
             setAuthData({
-                userData: userData,
+                userData: authGet,
                 onLogout: async function () {
                     await logout();
                     setAuthData(AUTH_OUT);
-                    history.push('/auth/login');
+                    history.push(URL_AUTH_LOGIN);
                 },
             });
         },
@@ -54,127 +69,27 @@ export function Authenticate(props) {
     if(response.loading || authData === AUTH_UNKNOWN) {
         return (<Loading />);
     }
-    // Display authentication subclient
-    if(authData === AUTH_OUT) {
-        return <ViewAuth onLogin={response.refetch} />
+    // If authenticated, pass authentication data to wrapped components
+    if(authData !== AUTH_OUT) {
+        return (
+            <authenticationContext.Provider
+                value={authData}
+                children={props.children}
+            />
+        );
     }
-    // Display Contents
-    return (
-        <authenticationContext.Provider
-            value={authData}
-            children={props.children}
-        />
-    );
-}
-
-//== Sub Components ============================================================
-
-//-- Main Routing --------------------------------
-/*
-    Note: Log Out route not currently handled here, as this component only
-    renders when the user IS NOT logged in.
-*/
-export function ViewAuth(props) {
-    // Render JSX
+    // Display authentication subclient
     return (
         <Switch>
-            <Route exact path="/auth/login">
-                <FormLogin login={props.onLogin} />
+            <Route exact path={URL_AUTH_LOGIN}>
+                <ViewLogin onLogin={response.refetch} />
             </Route>
-            <Route exact path="/auth/register">
-                <FormRegister login={props.onLogin} />
+            <Route exact path={URL_AUTH_REGISTER}>
+                <ViewRegister onLogin={response.refetch} />
             </Route>
             <Route path="/">
-                <Redirect to="/auth/login" />
+                <Redirect to={URL_AUTH_LOGIN} />
             </Route>
         </Switch>
-    );
-}
-
-//-- Registration Form ---------------------------
-function FormRegister(props) {
-    //
-    function handleSubmit(eventSubmit) {
-        eventSubmit.preventDefault();
-        let userName = eventSubmit.currentTarget.elements.username.value;
-        let password = eventSubmit.currentTarget.elements.password.value;
-        let email = eventSubmit.currentTarget.elements.email.value;
-        register(userName, password, email).then(function (userId) {
-            if(userId) {
-                props.login(userId);
-            }
-        });
-    }
-    //
-    return (
-        <div className="auth_modal">
-            <form className="auth_form" onSubmit={handleSubmit}>
-                <span className="auth_prompt">Register</span>
-                <input
-                    name="username"
-                    type="text"
-                    placeholder="User Name"
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                />
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                />
-                <div className="auth_actions">
-                    <button className="button" type="submit" children="Submit" />
-                    <Link
-                        className="button secondary"
-                        to="/auth/login"
-                        children="Log in"
-                    />
-                </div>
-            </form>
-        </div>
-    );
-}    
-
-//-- Log In Form ---------------------------------
-function FormLogin(props) {
-    //
-    function handleSubmit(eventSubmit) {
-        eventSubmit.preventDefault();
-        let userName = eventSubmit.currentTarget.elements.username.value;
-        let password = eventSubmit.currentTarget.elements.password.value;
-        login(userName, password).then(function (userId) {
-            if(userId) {
-                props.login(userId);
-            }
-        });
-    }
-    //
-    return (
-        <div className="auth_modal">
-            <form className="auth_form" onSubmit={handleSubmit}>
-                <span className="auth_prompt">Log in</span>
-                <input
-                    name="username"
-                    type="text"
-                    placeholder="User Name"
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                />
-                <div className="auth_actions">
-                    <button className="button" type="submit" children="Submit" />
-                    <Link
-                        className="button secondary"
-                        to="/auth/register"
-                        children="Register"
-                    />
-                </div>
-            </form>
-        </div>
     );
 }
