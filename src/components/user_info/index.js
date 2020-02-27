@@ -12,7 +12,7 @@ import {
 } from '../../utilities/url_handling.js';
 import {
     ButtonFollowToggle,
-    ButtonProfileEdit,
+    ButtonLink,
 } from '../button/index.js';
 import Portrait from '../portrait/index.js';
 import UserName from '../user_name/index.js';
@@ -47,7 +47,7 @@ export default function UserInfo(props) {
     const description = props.userData.description;
     let followButton = '';
     if(authData.userId === userId) {
-        followButton = (<ButtonProfileEdit />);
+        followButton = (<ButtonLink to="/settings" children="Edit" />);
     }
     else {
         followButton = (
