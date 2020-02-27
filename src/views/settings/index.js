@@ -1,6 +1,14 @@
 
 
-//==============================================================================
+/*== Settings View =============================================================
+
+This module exports one React component, ViewSettings, which displays a form
+where the user can edit their profile information. It accept no props.
+
+NOTE: This module is currently being renamed and refactored, so documentation
+is sparse and subject to change.
+
+*/
 
 //-- Dependencies --------------------------------
 import React, { useState, useContext, useRef } from 'react';
@@ -15,7 +23,7 @@ import Loading from '../../components/loading/index.js';
 import { urlUserProfile } from '../../utilities/url_handling.js';
 import './index.css';
 
-//------------------------------------------------
+//-- React Component -----------------------------
 export default function ViewSettings() {
     // NOTE: Disable submit during mutation
     const portraitDrawn = useRef();
@@ -70,26 +78,27 @@ export default function ViewSettings() {
         newState.portrait = await portraitGetDataUrl(fileSelected, canvas);
         setState(newState);
     }
-    //
+    // Handle Loading
     if(settingsResponse.loading) {
         return (<Loading />);
     }
+    // NOTE: Stretegy for error handling not yet determined
     if(settingsResponse.error) {
         return 'Error'
     }
-    // Render JSX
     let portraitPreview = '';
     if(!state.portrait && state.portraitUrl) {
         portraitPreview = (
             <img
-                src={state.portraitUrl}
-                width="128"
-                height="128"
-                className="profile_editor_portrait"
-                alt="Profile Portrait"
+            src={state.portraitUrl}
+            width="128"
+            height="128"
+            className="profile_editor_portrait"
+            alt="Profile Portrait"
             />
-        );
-    }
+            );
+        }
+    // Render JSX
     return (
         <form className="profile_editor" onSubmit={handleSubmit}>
             <div className="profile_editor_top">
@@ -130,7 +139,7 @@ export default function ViewSettings() {
     );
 }
 
-//------------------------------------------------
+//-- Portrait Utility ----------------------------
 async function portraitGetDataUrl(fileSelected, canvas) {
     const fileBitmap = await createImageBitmap(fileSelected);
     const context = canvas.getContext('2d');

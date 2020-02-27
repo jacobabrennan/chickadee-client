@@ -1,6 +1,6 @@
 
 
-//==============================================================================
+//== User View =================================================================
 
 //-- Dependencies --------------------------------
 import React from 'react';
@@ -17,7 +17,7 @@ import {
 } from './followers.js';
 import './index.css';
 
-//------------------------------------------------
+//-- React Component -----------------------------
 export default function ViewUser() {
     // NOTE: Handle case where user doesn't exist (redirect via history)
     //

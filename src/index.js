@@ -1,6 +1,6 @@
 
 
-//==============================================================================
+//== Client Entry Point ========================================================
 
 //-- Dependencies --------------------------------
 import React from 'react';
@@ -12,7 +12,7 @@ import Client from './client/index.js';
 import { Authenticate } from './authentication/index.js';
 import './reset.css';
 
-//------------------------------------------------
+//-- Mount React client to DOM -------------------
 ReactDOM.render(
     <ApolloProvider client={apolloClient}>
         <Router>

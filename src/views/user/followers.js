@@ -1,6 +1,6 @@
 
 
-//==============================================================================
+//== Followers =================================================================
 
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
@@ -17,19 +17,19 @@ import Loading from '../../components/loading/index.js';
 import Portrait from '../../components/portrait/index.js';
 import UserName from '../../components/user_name/index.js';
 
-//------------------------------------------------
-export function UserFollowers(props) {
+
+//== React Components ==========================================================
+
+//-- User Followers ------------------------------
+export function UserFollowers({ userId }) {
     //
-    const variables = {
-        userId: props.userId,
-    };
-    const response = useQuery(QUERY_followersGet, {
-        variables: variables,
-    });
+    const variables = { userId };
+    const response = useQuery(QUERY_followersGet, { variables });
     //
     if(response.loading) {
         return (<Loading />);
     }
+    // NOTE: Stretegy for error handling not yet determined
     if(response.error) {
         return `${response.error}`;
     }
@@ -46,19 +46,16 @@ export function UserFollowers(props) {
     );
 }
 
-//------------------------------------------------
-export function UserFollows(props) {
+//-- Users being followed by user ----------------
+export function UserFollows({ userId }) {
     //
-    const variables = {
-        userId: props.userId,
-    };
-    const response = useQuery(QUERY_followsGet, {
-        variables: variables,
-    });
+    const variables = { userId };
+    const response = useQuery(QUERY_followsGet, { variables });
     //
     if(response.loading) {
         return (<Loading />);
     }
+    // NOTE: Stretegy for error handling not yet determined
     if(response.error) {
         return `${response.error}`;
     }
@@ -75,11 +72,8 @@ export function UserFollows(props) {
     );
 }
 
-//------------------------------------------------
-function FollowDetail(props) {
-    //
-    const user = props.user;
-    //
+//-- FollowDetail --------------------------------
+function FollowDetail({ user }) {
     const authData = useContext(authenticationContext).userData;
     const [following, setFollowing] = useState(user.followers.following);
     const history = useHistory();

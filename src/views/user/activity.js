@@ -1,6 +1,6 @@
 
 
-//==============================================================================
+//== User Activity =============================================================
 
 //-- Dependencies --------------------------------
 import React from 'react';
@@ -10,31 +10,24 @@ import Feed from '../../components/feed/index.js';
 import UserInfo from '../../components/user_info/index.js';
 import Loading from '../../components/loading/index.js';
 
-//-- Project Constants ---------------------------
-
-//------------------------------------------------
-export default function UserActivity(props) {
-    //
-    const variables = {
-        userId: props.userId,
-    };
-    const response = useQuery(QUERY_userDataPackage, {
-        variables: variables,
-    });
-    //
+//-- React Component -----------------------------
+export default function UserActivity({ userId }) {
+    // Request data from server
+    const variables = { userId };
+    const response = useQuery(QUERY_userDataPackage, { variables });
+    // Handle Loading
     if(response.loading) {
         return (<Loading />);
     }
+    // NOTE: Stretegy for error handling not yet determined
     if(response.error) {
         return `${response.error}`;
     }
     // Render JSX
-    const userData = response.data.userGet;
-    const feedData = response.data.userActivityGet;
     return (
         <React.Fragment>
-            <UserInfo userData={userData} />
-            <Feed data={feedData} />
+            <UserInfo userData={response.data.userGet} />
+            <Feed data={response.data.userActivityGet} />
         </React.Fragment>
     );
 }
