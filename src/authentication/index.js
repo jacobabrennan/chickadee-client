@@ -1,6 +1,17 @@
 
 
-//== Authentication Client and route handler ===================================
+/*== Authentication Client and route handler ===================================
+
+This module exports a React context, authentication, which provides user data
+for the currently logged in user.
+
+This module also exports a React component, Authenticate, which acts as a
+wrapper around the rest of the client. The component provides authentication
+data to the authentication context when the user is logged in. Otherwise, it
+displays registration and login views allowing the user to authenticate.
+It accepts one prop, the standard React prop "children".
+
+*/
 
 //-- Dependencies --------------------------------
 // NPM Modules
@@ -40,7 +51,7 @@ const authenticationContext = createContext({
 export default authenticationContext;
 
 //-- React Component -----------------------------
-export function Authenticate(props) {
+export function Authenticate({ children }) {
     // Setup auth data state
     const [authData, setAuthData] = useState(AUTH_UNKNOWN);
     // Query server for authentication data
@@ -74,7 +85,7 @@ export function Authenticate(props) {
         return (
             <authenticationContext.Provider
                 value={authData}
-                children={props.children}
+                children={children}
             />
         );
     }

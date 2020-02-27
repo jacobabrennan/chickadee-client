@@ -1,6 +1,15 @@
 
 
-//== Registration Form =========================================================
+/*== Registration Form =========================================================
+
+This module exports one React components, ViewRegister, which renders a
+registration form.
+
+It accepts one prop:
+    onLogin(function): this is a callback invoked with one argument, the userId
+        of the successfully logged in user.
+
+*/
 
 //-- Dependencies --------------------------------
 import React from 'react';

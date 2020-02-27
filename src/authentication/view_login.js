@@ -1,6 +1,14 @@
 
 
-//== Login Form ================================================================
+/*== Login Form ================================================================
+
+This module exports one React components, ViewLogin, which renders a login form.
+
+It accepts one prop:
+    onLogin(function): this is a callback invoked with one argument, the userId
+        of the successfully logged in user.
+
+*/
 
 //-- Dependencies --------------------------------
 import React from 'react';
