@@ -1,14 +1,13 @@
 # Chickadee-Client
 
-Ahoy Fred!
+## Description
 
-This is the front end of a social media experiment. The backend can be found here:
-https://github.com/jacobabrennan/chickadee
+Chickadee is a basic social media website based on Twitter.com, and built as part of a "Social Media Wargames" project. The purpose of Social Media Wargames test moderation strategies by building model websites, attacking them, and then measuring how well the moderation strategy handles the attack.
 
-The project is still under development, and no production build exists. In the meantime, you can run the experiment via the command `yarn start`. The project is a social media website based on Twitter. It is built using React, with Apollo for use with GraphQL. Users can register an account, login, update their profile, view other users, and make "posts" (analogous to tweets).
+## Status
 
-For an example of a component using hooks for both state management and GraphQL, as well as rendering JSX, see the file [src/components/composer/index.js](https://github.com/jacobabrennan/chickadee-client/blob/master/src/components/composer/index.js).
+Chickadee is in the early stages of development. The model is still being designed, and no moderation strategy has been implemented.
 
-Thanks for taking the time to look at this project, it means a lot to me!
+## Setup
 
-~~ Jacob A Brennan
+A development server can be run by cloning the repo locally, and then running the standard command `yarn start`. After a moment the home page should open automatically in the browser. In order to login and test the functionality of the client, you will also need to be running the [Chickadee back end](https://github.com/jacobabrennan/chickadee).
