@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/react-hooks';
 import {
     MUTATION_followLinkAdd,
     MUTATION_followLinkRemove,
-} from '../server_api/graphql_queries.js';
+} from '../../server_api/graphql_queries.js';
 import './button.css';
 
 //-- Project Constants ---------------------------

@@ -10,7 +10,7 @@ import ViewUser from './views/user/index.js';
 import ViewPost from './views/post/index.js';
 import ViewHome from './views/home/index.js';
 import ViewSettings from './views/settings/index.js';
-import HeaderBar from './components/header_bar.js';
+import HeaderBar from './components/header_bar/index.js';
 import './client.css';
 
 //-- Main Client Component -----------------------

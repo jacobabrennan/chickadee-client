@@ -5,14 +5,14 @@
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
 import * as routing from 'react-router-dom';
-import authenticationContext from '../authentication/index.js';
+import authenticationContext from '../../authentication/index.js';
+import { urlUserFollowing, urlUserFollowers } from '../../utilities.js';
 import {
     ButtonFollowToggle,
     ButtonProfileEdit,
-} from './button.js';
-import Portrait from './portrait.js';
-import UserName from './user_name.js';
-import { urlUserFollowing, urlUserFollowers } from '../utilities.js';
+} from '../button/index.js';
+import Portrait from '../portrait/index.js';
+import UserName from '../user_name/index.js';
 import './user_info.css';
 
 //-- Main Component ------------------------------

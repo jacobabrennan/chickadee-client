@@ -6,11 +6,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import * as routing from 'react-router-dom';
-import Loading from '../../components/loading';
+import Loading from '../../components/loading/index.js';
+import Post from '../../components/post/index.js';
+import Composer from '../../components/composer/index.js';
 import { QUERY_postGet } from '../../server_api/graphql_queries';
-import Post from '../../components/post.js';
 import './index.css';
-import Composer from '../../components/composer';
 
 //------------------------------------------------
 export default function ViewPost() {

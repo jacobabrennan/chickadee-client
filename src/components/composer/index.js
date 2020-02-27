@@ -5,9 +5,9 @@
 //-- Dependencies --------------------------------
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_postCreate } from '../server_api/graphql_queries.js';
+import { MUTATION_postCreate } from '../../server_api/graphql_queries.js';
 import './composer.css';
-import Portrait from './portrait.js';
+import Portrait from '../portrait/index.js';
 
 //-- React Component -----------------------------
 export default function Composer(props) {

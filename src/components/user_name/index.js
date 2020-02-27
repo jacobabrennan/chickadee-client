@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import React from 'react';
 import * as routing from 'react-router-dom';
-import { urlUserProfile } from '../utilities.js';
+import { urlUserProfile } from '../../utilities.js';
 import './user_name.css';
 
 //------------------------------------------------

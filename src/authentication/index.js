@@ -8,7 +8,7 @@ import * as routing from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { register, login, logout } from './api.js';
 import { QUERY_authGet } from '../server_api/graphql_queries.js';
-import Loading from '../components/loading.js';
+import Loading from '../components/loading/index.js';
 import './index.css';
 
 //-- Project Constants ---------------------------

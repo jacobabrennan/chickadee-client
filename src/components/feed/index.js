@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import Post from './post.js';
+import Post from '../post/index.js';
 import './feed.css';
 
 //-- Main Component ------------------------------

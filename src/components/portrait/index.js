@@ -4,7 +4,7 @@
 
 //-- Dependencies --------------------------------
 import React from 'react';
-import { URL_IMAGE_PORTRAIT_DEFAULT } from '../constants.js';
+import { URL_IMAGE_PORTRAIT_DEFAULT } from '../../constants.js';
 import './portrait.css';
 
 //------------------------------------------------

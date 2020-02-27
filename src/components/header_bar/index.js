@@ -5,8 +5,8 @@
 //-- Dependencies --------------------------------
 import React, { useContext } from 'react';
 import * as routing from 'react-router-dom';
-import authenticationContext from '../authentication/index.js';
-import { urlUserProfile } from '../utilities.js';
+import authenticationContext from '../../authentication/index.js';
+import { urlUserProfile } from '../../utilities.js';
 import './header_bar.css';
 
 

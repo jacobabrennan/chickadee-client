@@ -5,17 +5,17 @@
 //-- Dependencies --------------------------------
 import React, { useState, useContext } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import * as routing from 'react-router-dom';
 import {
     QUERY_followersGet,
     QUERY_followsGet,
 } from '../../server_api/graphql_queries.js';
-import Loading from '../../components/loading.js';
-import * as routing from 'react-router-dom';
 import authenticationContext from '../../authentication/index.js';
-import { ButtonFollowToggle } from '../../components/button.js';
-import Portrait from '../../components/portrait.js';
-import UserName from '../../components/user_name.js';
 import { urlUserProfile } from '../../utilities.js';
+import { ButtonFollowToggle } from '../../components/button/index.js';
+import Loading from '../../components/loading/index.js';
+import Portrait from '../../components/portrait/index.js';
+import UserName from '../../components/user_name/index.js';
 
 //------------------------------------------------
 export function UserFollowers(props) {
